@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../helpers.php';
+//require_once __DIR__ . '../../helpers.php';
 
 function handleBookmarks(string $method, string $action) {
     match ($action) {
@@ -85,5 +85,5 @@ function bookmarksRemove(string $method) {
 }
 
 // ─── ROUTE ───
-$action = $_GET['action'] ?? '';
-handleBookmarks($_SERVER['REQUEST_METHOD'], $action);
+// $action = $_GET['action'] ?? '';
+// handleBookmarks($_SERVER['REQUEST_METHOD'], $action);
