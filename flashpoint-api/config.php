@@ -17,7 +17,7 @@ function getDB() {
     if ($db !== null) return $db;
     
     $host = 'localhost';
-    $dbname = 'flashpoint';      
+    $dbname = 'flashpoint';
     $user = 'root';
     $pass = 'root';               // XAMPP default: NO password || mamp root pass
     $charset = 'utf8mb4';
@@ -71,7 +71,7 @@ function generateToken(array $payload) {
     //REPLACE THIS IN PRODUCTION with a real secret from environment variables
     $secret = 'flashpoint-secret-key-2026';
     
-    $signature = hash_hmac('sha256', "$b64Header.$b64Payload", $secret);
+    $signature = hash_hmac('sha256', "$b64Header.$b64Payload", $secret, true);
     $b64Sig = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
     
     return "$b64Header.$b64Payload.$b64Sig";
@@ -94,7 +94,7 @@ function requireAuth(): array {
     }
 
     $token = substr($auth, 7);
-    error('DEBUG token: ' . substr($token, 0, 20) . ' parts: ' . count(explode('.', $token)), 400);
+    //error('DEBUG token: ' . substr($token, 0, 20) . ' parts: ' . count(explode('.', $token)), 400);
     $parts = explode('.', $token);
     if (count($parts) !== 3) error('Invalid token format', 401);
 
@@ -103,7 +103,7 @@ function requireAuth(): array {
     $secret = 'flashpoint-secret-key-2026';
 
     // Must match exactly how generateToken() creates the signature
-    $expectedSig = hash_hmac('sha256', "$b64Header.$b64Payload", $secret);
+    $expectedSig = hash_hmac('sha256', "$b64Header.$b64Payload", $secret, true);
     $expectedB64 = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($expectedSig));
 
     if (!hash_equals($expectedB64, $b64Sig)) {
