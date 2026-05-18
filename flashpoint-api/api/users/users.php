@@ -4,8 +4,6 @@
 // PATCH  /api/users/{id}/membership    – upgrade membership
 // PATCH  /api/users/{id}/password      – change password
 // POST   /api/users/{id}/photo         – upload profile photo
-// POST   /api/users/{userId}/bookmarks – add bookmark
-// GET    /api/users/{userId}/bookmarks – get bookmarks
 
 function handleUsers(string $method, string $userId, string $action) {
     if (!$userId) error('User ID required', 400);
