@@ -1,5 +1,12 @@
 # API_Systems_Nirvana_Vella
 This repository will be used for all the API Systems unit assignments
+Log Ins - 
+
+          kyn@flashpoint.mt 
+          newpassword456
+          
+          eln@flashpoint.mt
+          password123
 
 ## Main Functionalities
 Within this application the main features are the interactive map, adding pins to add content, and the verification system. 
