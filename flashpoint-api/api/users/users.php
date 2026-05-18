@@ -24,7 +24,7 @@ function handleUsers(string $method, string $userId, string $action) {
 // ─── GET /api/users/{id} ──────────────────────────────────────────────────────
 function userGet(string $userId) {
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     $db   = getDB();
     $stmt = $db->prepare("
@@ -60,7 +60,7 @@ function userGet(string $userId) {
 // ─── GET /api/users/{id}/membership ───────────────────────────────────────────
 function userMembershipGet(string $userId) {
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     $db   = getDB();
     $stmt = $db->prepare("
@@ -105,7 +105,7 @@ function userMembershipGet(string $userId) {
 // ─── PATCH /api/users/{id}/membership ─────────────────────────────────────────
 function userMembershipUpgrade(string $userId) {
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     $b = body();
     if (empty($b['tier_id'])) error('tier_id is required', 400);
@@ -181,7 +181,7 @@ function userMembershipUpgrade(string $userId) {
 function userPassword(string $method, string $userId) {
     if ($method !== 'PATCH') error('Method not allowed', 405);
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     $b = body();
     if (empty($b['currentPass']) || empty($b['newPass'])) error('currentPass and newPass are required', 400);
@@ -205,7 +205,7 @@ function userPassword(string $method, string $userId) {
 // ─── POST /api/users/{id}/photo ───────────────────────────────────────────────
 function userPhotoUpload(string $userId) {
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     if (empty($_FILES['photo'])) error('No photo uploaded', 400);
 
@@ -246,7 +246,7 @@ function userPhotoUpload(string $userId) {
 // ─── POST /api/users/{userId}/bookmarks ──────────────────────────────────────
 function bookmarkAdd(string $userId) {
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     $b = body();
     if (empty($b['articleId'])) error('articleId is required', 400);
@@ -272,7 +272,7 @@ function bookmarkAdd(string $userId) {
 // ─── GET /api/users/{userId}/bookmarks ───────────────────────────────────────
 function bookmarkGet(string $userId) {
     $user = verifyToken();
-    if ((string)$user['sub'] !== $userId) error('Forbidden', 403);
+    if ((string)$user['id'] !== $userId) error('Forbidden', 403);
 
     $db   = getDB();
     $stmt = $db->prepare("

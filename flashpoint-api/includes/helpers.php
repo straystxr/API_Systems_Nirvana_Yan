@@ -71,6 +71,11 @@ function verifyToken(): array {
     return $payload;
 }
 
+function requireAuth(): array {
+    return verifyToken();
+}
+
+
 function requireRole(string ...$roles): array {
     $user = verifyToken();
     if (!in_array($user['role'] ?? '', $roles)) error('Forbidden', 403);

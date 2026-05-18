@@ -120,7 +120,7 @@ function authLogin(string $method) {
 
     // Generate Bearer token
     $token = generateToken([
-        'sub'  => $user['id'],
+        'id'  => $user['id'],
         'name' => $user['display_name'],
         'role' => $user['user_type'],
     ]);

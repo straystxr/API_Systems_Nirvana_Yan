@@ -1,5 +1,6 @@
 <?php
-//require_once __DIR__ . '../../helpers.php';
+require_once __DIR__ . '/../includes/helpers.php';
+
 
 function handleBookmarks(string $method, string $action) {
     match ($action) {
@@ -54,11 +55,11 @@ function bookmarksAdd(string $method) {
 
         respond(['message' => 'Article bookmarked'], 201);
 
-    } catch (Exception $e) {
-        if (str_contains($e->getMessage(), 'Duplicate')) {
+    } 
+    
+  catch (Exception $e) {
+        if (str_contains($e->getMessage(), 'Duplicate')) 
             error('Already bookmarked', 409);
-        }
-        error('Failed to bookmark', 500);
     }
 }
 
@@ -85,5 +86,5 @@ function bookmarksRemove(string $method) {
 }
 
 // ─── ROUTE ───
-// $action = $_GET['action'] ?? '';
-// handleBookmarks($_SERVER['REQUEST_METHOD'], $action);
+$action = $_GET['action'] ?? '';
+handleBookmarks($_SERVER['REQUEST_METHOD'], $action);
