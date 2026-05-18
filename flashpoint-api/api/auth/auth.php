@@ -1,10 +1,8 @@
 <?php
-require_once __DIR__.'/../../config.php';
 function handleAuth(string $method, string $action) {
     match ($action) {
         'register' => authRegister($method),
         'login'    => authLogin($method),
-        //'google_login' => authGoogleLogin($method),
         default    => error('Auth endpoint not found', 404),
     };
 }
@@ -251,5 +249,5 @@ function authGoogleLogin(string $method) {
 }
 
 */
-$action = $_GET['action'] ?? '';
-handleAuth($_SERVER['REQUEST_METHOD'], $action);
+// $action = $_GET['action'] ?? '';
+// handleAuth($_SERVER['REQUEST_METHOD'], $action);
