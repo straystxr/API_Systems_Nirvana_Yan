@@ -14,7 +14,7 @@ $patchResult = null;
 
 // Handle upgrade form — PATCH /api/users/{id}/membership
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['tier_id'])) {
-    $patchResult = apiRequest('PATCH', '/users/' . $userId . '/membership', [
+    $patchResult = apiRequest('PATCH', '/memberships/' . $userId . '/membership', [
         'tier_id' => (int)$_POST['tier_id']
     ], $token);
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['tier_id'])) {
 }
 
 // Call API using cURL — GET /api/users/{id}/membership
-$result     = apiRequest('GET', '/users/' . $userId . '/membership', [], $token);
+$result     = apiRequest('GET', '/memberships/' . $userId . '/membership', [], $token);
 $membership = $result['data']['membership'] ?? null;
 
 pageHeader('Membership', 'membership');
@@ -34,8 +34,8 @@ pageHeader('Membership', 'membership');
 
 <div class="page-title">Membership</div>
 <div class="page-sub">
-  Calls <span class="code-tag">GET /api/users/<?= $userId ?>/membership</span> and
-  <span class="code-tag">PATCH /api/users/<?= $userId ?>/membership</span> using cURL
+  Calls <span class="code-tag">GET /api/memberships/<?= $userId ?>/membership</span> and
+  <span class="code-tag">PATCH /api/memberships/<?= $userId ?>/membership</span> using cURL
 </div>
 
 <?php if ($success): ?>

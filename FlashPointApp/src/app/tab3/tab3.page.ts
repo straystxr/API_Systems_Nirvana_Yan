@@ -74,7 +74,7 @@ export class Tab3Page implements OnInit {
     try {
       const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authService.getToken() });
       const res: any = await firstValueFrom(
-        this.http.get(`${this.apiUrl}/users/${this.user.id}/membership`, { headers })
+        this.http.get(`${this.apiUrl}/memberships/${this.user.id}/membership`, { headers })
       );
       this.membership = res.membership;
     } catch (e) {
@@ -217,7 +217,7 @@ export class Tab3Page implements OnInit {
     });
     const res: any = await firstValueFrom(
       this.http.patch(
-        `${this.apiUrl}/users/${this.user.id}/membership`,
+        `${this.apiUrl}/memberships/${this.user.id}/membership`,
         { tier_id: tierId },
         { headers }
       )

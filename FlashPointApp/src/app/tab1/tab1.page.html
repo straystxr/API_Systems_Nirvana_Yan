@@ -1,22 +1,114 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      FlashPoint - Map
-    </ion-title>
+    <div class="map-toolbar">
+      <img src="assets/FlashPoint_Graphics/logo.svg" alt="FlashPoint" class="toolbar-logo"/>
+      <!-- Sidebar toggle button -->
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <span class="toggle-icon" [class.open]="sidebarOpen">☰</span>
+        <span class="toggle-label">Articles</span>
+        <span class="article-count" *ngIf="articles.length > 0">{{ articles.length }}</span>
+      </button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Map</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" [class.open]="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- Sidebar Panel -->
+  <div class="sidebar" [class.open]="sidebarOpen">
+
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <div>
+        <h2 class="sidebar-title">All Articles</h2>
+        <p class="sidebar-sub">{{ articles.length }} articles in database</p>
+      </div>
+      <button class="close-btn" (click)="closeSidebar()">✕</button>
+    </div>
+
+    <!-- Article List -->
+    <div class="article-list" *ngIf="!selectedArticle">
+      <div class="empty-sidebar" *ngIf="articles.length === 0">
+        <p>No articles yet. Tap the map to add one!</p>
+      </div>
+
+      <div class="article-item"
+        *ngFor="let article of articles"
+        (click)="openArticleDetail(article)"
+        (mouseenter)="onArticleHover(article)"
+        (mouseleave)="onArticleLeave()"
+        [class.hovered]="hoveredId === article.id">
+
+        <div class="article-item-meta">
+          <span class="cat-dot"
+            [style.background]="getCategoryColor(article.category)">
+          </span>
+          <span class="cat-label" [style.color]="getCategoryColor(article.category)">
+            {{ article.category }}
+          </span>
+          <span class="verification-pill"
+            [class.verified]="article.verification_status === 'verified'"
+            [class.in-progress]="article.verification_status === 'in_progress'"
+            [class.unverified]="article.verification_status === 'unverified'">
+            {{ article.verification_status === 'verified' ? '✓ Verified'
+             : article.verification_status === 'in_progress' ? '⏳ In Review'
+             : '○ Unverified' }}
+          </span>
+        </div>
+
+        <h3 class="article-item-title">{{ article.title }}</h3>
+        <p class="article-item-preview">{{ article.body | slice:0:80 }}...</p>
+        <p class="article-item-author">By {{ article.authorName }}</p>
+
+      </div>
+    </div>
+
+    <!-- Full Article Detail -->
+    <div class="article-detail" *ngIf="selectedArticle">
+      <button class="back-btn" (click)="selectedArticle = null">← Back to list</button>
+
+      <div class="detail-meta">
+        <span class="cat-dot" [style.background]="getCategoryColor(selectedArticle.category)"></span>
+        <span class="cat-label" [style.color]="getCategoryColor(selectedArticle.category)">
+          {{ selectedArticle.category }}
+        </span>
+        <span class="verification-pill"
+          [class.verified]="selectedArticle.verification_status === 'verified'"
+          [class.in-progress]="selectedArticle.verification_status === 'in_progress'"
+          [class.unverified]="selectedArticle.verification_status === 'unverified'">
+          {{ selectedArticle.verification_status === 'verified' ? '✓ Verified'
+           : selectedArticle.verification_status === 'in_progress' ? '⏳ In Review'
+           : '○ Unverified' }}
+        </span>
+      </div>
+
+      <h2 class="detail-title">{{ selectedArticle.title }}</h2>
+      <p class="detail-author">By {{ selectedArticle.authorName }}</p>
+
+      <div class="detail-location" *ngIf="selectedArticle.lat && selectedArticle.lng">
+        📍 {{ selectedArticle.lat | number:'1.4-4' }}, {{ selectedArticle.lng | number:'1.4-4' }}
+      </div>
+
+      <div class="detail-source" *ngIf="selectedArticle.source">
+        📰 {{ selectedArticle.source }}
+      </div>
+
+      <div class="detail-divider"></div>
+
+      <p class="detail-body">{{ selectedArticle.body }}</p>
+
+      <a class="detail-link" [href]="selectedArticle.url" target="_blank"
+        *ngIf="selectedArticle.url">
+        Read full article →
+      </a>
+    </div>
+
+  </div>
+
 </ion-content>
-
-<ion-content [fullscreen]="true">
-    <!--Map Div where the Leaflet Map will be-->
-    <div id="map"></div>
-</ion-content>
-
-

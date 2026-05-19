@@ -155,7 +155,8 @@ submit() {
 
   console.log('Form value being sent:', this.form.value);
 
-  this.articleService.submitArticle(this.form.value).subscribe({
+  const token = localStorage.getItem('access_token') ?? '';
+this.articleService.submitArticle(this.form.value, token).subscribe({
     next: (res: any) => {
   console.log('Full response:', JSON.stringify(res)); 
   if (res && res.success) {

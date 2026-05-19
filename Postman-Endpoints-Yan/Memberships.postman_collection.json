@@ -14,7 +14,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3MDk1NjJ9.152d3cd814e1de11c680202388a41e93dfe8b7fe461917e8b16456134ad056e3",
+              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3NzcyMTl9.907e6f88732b7cd082626649c28ff0f5eb245a41debfb6d0946dab74e037860c",
               "type": "string"
             }
           ]
@@ -42,10 +42,29 @@
     {
       "name": "ChangePlan",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3MDk1NjJ9.152d3cd814e1de11c680202388a41e93dfe8b7fe461917e8b16456134ad056e3",
+              "type": "string"
+            }
+          ]
+        },
         "method": "PATCH",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"tier_id\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/users/1/membership",
+          "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/users/7/membership",
           "protocol": "http",
           "host": [
             "localhost"
@@ -55,7 +74,7 @@
             "flashpoint-api",
             "api",
             "users",
-            "1",
+            "7",
             "membership"
           ]
         }
