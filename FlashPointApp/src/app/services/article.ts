@@ -20,7 +20,7 @@ export interface Article {
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
 
-  private apiUrl = 'http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/core/articles.php';
+  private apiUrl = 'http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/core/articles.php';
   private articles$ = new BehaviorSubject<Article[]>([]);
 
   constructor(private http: HttpClient) {

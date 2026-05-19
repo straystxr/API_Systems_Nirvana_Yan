@@ -8,7 +8,7 @@ import { firstValueFrom } from 'rxjs';
 export class Auth {
 
   // Your PHP API base URL
-  private apiUrl = 'http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api';
+  private apiUrl = 'http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api';
 
   constructor(private http: HttpClient) {}
 

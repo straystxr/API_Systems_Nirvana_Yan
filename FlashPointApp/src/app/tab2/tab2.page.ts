@@ -26,7 +26,7 @@ import { Auth } from '../services/auth';
 })
 export class Tab2Page implements OnInit {
 
-  private apiUrl = 'http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/core';
+  private apiUrl = 'http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/core';
 
   public bookmarks: any[] = [];
   public loading: boolean = true;

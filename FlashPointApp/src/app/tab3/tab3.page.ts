@@ -24,7 +24,7 @@ import { Auth } from '../services/auth';
 export class Tab3Page implements OnInit {
   @ViewChild('photoInput') photoInput!: ElementRef;
 
-  private apiUrl = 'http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api';
+  private apiUrl = 'http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api';
 
   // Profile
   public user: any = null;
