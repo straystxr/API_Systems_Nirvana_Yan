@@ -56,7 +56,7 @@ function bookmarksAdd(string $method) {
 
     } catch (Exception $e) {
         if (str_contains($e->getMessage(), 'Duplicate')) {
-            error('Already bookmarked', 409);
+            error('Already bookmarked', 200); //not really an error
         }
         error('Failed to bookmark', 500);
     }

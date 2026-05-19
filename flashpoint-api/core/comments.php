@@ -1,133 +1,167 @@
 <?php
+require_once __DIR__ . '/../config.php';
 
-class Comment{
-        //db related properties
-        private $conn;
-        //behind the = is the name of the table within the database
-        private $table = "comments";
-        private $alias = "c";
+function handleComments(string $method, string $action) {
+    match ($action) {
+        'list'      => commentsList($method),
+        'single'    => commentSingle($method),
+        'byArticle' => commentsByArticle($method),
+        'create'    => commentCreate($method),
+        'edit'      => commentEdit($method),
+        'delete'    => commentDelete($method),
+        default     => error('Comments endpoint not found', 404),
+    };
+}
 
-        //table fields; same names as the table 
-        public $id;
-        public $content;
-        public $postId;
-        public $userId;
-        public $created_at
+function commentsList(string $method) {
+    if ($method !== 'GET') error('Method not allowed', 405);
 
-        //constructor with db connection to be opened up immediately
-        //function that is triggered automatically when an instance of the class is created
-        public function __construct($db){
-            $this->conn = $db;
-        }
+    $db = getDB();
+    $stmt = $db->query("SELECT * FROM comments ORDER BY id ASC");
 
-        //with interpolation it allows us to change the table name in the case that we change the table name within the database
-        public function read(){
-            $query = "SELECT * FROM {$this->table} AS {$this->alias} ORDER BY {$this->alias}.id ASC;";
+    respond([
+        'count'    => $stmt->rowCount(),
+        'comments' => $stmt->fetchAll()
+    ]);
+}
 
-            $stmt = $this->conn->prepare($query);
+function commentSingle(string $method) {
+    if ($method !== 'GET') error('Method not allowed', 405);
 
-            $stmt->execute();
+    $id = $_GET['id'] ?? null;
+    if (empty($id)) error('id required');
 
-            return $stmt;
-        }
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM comments WHERE id = ? LIMIT 1");
+    $stmt->execute([$id]);
+    $comment = $stmt->fetch();
 
-        //a function that reads a single user
-        public function readSingle(){
-            $query = "SELECT *
-                        FROM {$this->table} AS {$this->alias}
-                        WHERE {$this->alias}.id = ?
-                        LIMIT 1;"; //ensures that it only gives us one result from the SQL
+    if (!$comment) error('Comment not found', 404);
 
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $this->id);
-            $stmt->execute();
+    respond($comment);
+}
 
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row > 0){
-                $this->content = $row["content"];
-                $this->postId = $row["postId"];
-                $this->userId = $row["userId"];
-                $this->created_at = $row["created_at"];
-            }
-            return $stmt;
-        }
+function commentsByArticle(string $method) {
+    if ($method !== 'GET') error('Method not allowed', 405);
 
-        public function readByArticle() {
-            $query = "SELECT 
-                        {$this->alias}.id,
-                        {$this->alias}.content,
-                        {$this->alias}.userId,
-                        {$this->alias}.created_at,
-                        u.username,
-                        u.display_name
-                    FROM {$this->table} AS {$this->alias}
-                    LEFT JOIN users u ON {$this->alias}.userId = u.id
-                    WHERE {$this->alias}.articleId = ?
-                    ORDER BY {$this->alias}.created_at DESC";
-    
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $this->articleId);
-            $stmt->execute();
-            return $stmt;
-        }
+    $articleId = $_GET['article_id'] ?? null;
+    if (empty($articleId)) error('article_id required');
 
-        // editing comments function
-        public function editComment() {
-            $query = "UPDATE {$this->table}
-                        SET content = :content
-                        WHERE id = :id
-                        AND userId = :userId";  //only owner can update their comment
-    
-            $stmt = $this->conn->prepare($query);
-    
-            $this->id = htmlspecialchars(strip_tags($this->id));
-            $this->content = htmlspecialchars(strip_tags($this->content));
-            $this->userId = htmlspecialchars(strip_tags($this->userId));
-    
-            $stmt->bindParam(":id", $this->id);
-            $stmt->bindParam(":content", $this->content);
-            $stmt->bindParam(":userId", $this->userId);
-    
-            if ($stmt->execute()) {
-                return true;
-            }
-    
-            return false;
-        }
+    $db = getDB();
+    $stmt = $db->prepare("
+        SELECT 
+            c.id,
+            c.body,
+            c.user_id,
+            c.created_at,
+            u.username,
+            u.display_name
+        FROM comments c
+        LEFT JOIN users u ON c.user_id = u.id
+        WHERE c.article_id = ?
+        ORDER BY c.created_at DESC
+    ");
+    $stmt->execute([$articleId]);
 
-        public function delete() {
-            $query = "DELETE FROM {$this->table}
-                    WHERE id = :id
-                    AND userId = :userId";  //only owner can delete comment with this function
-    
-            $stmt = $this->conn->prepare($query);
-    
-            $this->id = htmlspecialchars(strip_tags($this->id));
-            $this->userId = htmlspecialchars(strip_tags($this->userId));
-    
-            $stmt->bindParam(":id", $this->id);
-            $stmt->bindParam(":userId", $this->userId);
-    
-            if ($stmt->execute()) {
-                return true;
-            }
-    
-            return false;
-        }
+    respond([
+        'count'    => $stmt->rowCount(),
+        'comments' => $stmt->fetchAll()
+    ]);
+}
 
-        //whoever has the role of admin can delete any comment
-        public function adminDelete() {
-            $query = "DELETE FROM {$this->table} WHERE id = :id";
-    
-            $stmt = $this->conn->prepare($query);
-            $this->id = htmlspecialchars(strip_tags($this->id));
-            $stmt->bindParam(":id", $this->id);
-    
-            if ($stmt->execute()) {
-                return true;
-            }
-    
-            return false;
-        }
-    }
-?>
+function commentCreate(string $method) {
+    if ($method !== 'POST') error('Method not allowed', 405);
+
+    $user = requireAuth();
+    $b = body();
+
+    if (empty($b['body']))    error('content required');
+    if (empty($b['article_id'])) error('article_id required');
+
+    $db = getDB();
+
+    // Verify article exists
+    $check = $db->prepare("SELECT id FROM articles WHERE id = ?");
+    $check->execute([$b['article_id']]);
+    if (!$check->fetch()) error('Article not found', 404);
+
+    $stmt = $db->prepare("
+        INSERT INTO comments (body, article_id, user_id, created_at)
+        VALUES (?, ?, ?, NOW())
+    ");
+    $stmt->execute([
+        htmlspecialchars(strip_tags($b['body'])),
+        $b['article_id'],
+        $user['id']
+    ]);
+
+    respond([
+        'message'   => 'Comment created',
+        'comment_id' => $db->lastInsertId()
+    ], 201);
+}
+
+function commentEdit(string $method) {
+    if ($method !== 'PUT' && $method !== 'PATCH') error('Method not allowed', 405);
+
+    $user = requireAuth();
+    $b = body();
+
+    if (empty($b['id']))      error('id required');
+    if (empty($b['content'])) error('content required');
+
+    $db = getDB();
+
+    // Verify ownership
+    $owner = $db->prepare("SELECT userId FROM comments WHERE id = ?");
+    $owner->execute([$b['id']]);
+    $comment = $owner->fetch();
+
+    if (!$comment) error('Comment not found', 404);
+    if ($comment['userId'] != $user['id']) error('Unauthorized', 403);
+
+    $stmt = $db->prepare("
+        UPDATE comments
+        SET content = ?
+        WHERE id = ?
+    ");
+    $stmt->execute([
+        htmlspecialchars(strip_tags($b['content'])),
+        $b['id']
+    ]);
+
+    respond(['message' => 'Comment updated']);
+}
+
+function commentDelete(string $method) {
+    if ($method !== 'DELETE') error('Method not allowed', 405);
+
+    $user = requireAuth();
+    $b = body();
+
+    if (empty($b['id'])) error('id required');
+
+    $db = getDB();
+
+    // Fetch comment to check ownership
+    $stmt = $db->prepare("SELECT userId FROM comments WHERE id = ?");
+    $stmt->execute([$b['id']]);
+    $comment = $stmt->fetch();
+
+    if (!$comment) error('Comment not found', 404);
+
+    // Allow if: admin, verifier, or original author
+    $role = $user['role'] ?? '';
+    $isAuthor = $comment['userId'] == $user['id'];
+    $canDelete = $isAuthor || in_array($role, ['admin', 'verifier'], true);
+
+    if (!$canDelete) error('Unauthorized', 403);
+
+    $db->prepare("DELETE FROM comments WHERE id = ?")->execute([$b['id']]);
+
+    respond(['message' => 'Comment deleted']);
+}
+
+// ─── ROUTE ───
+$action = $_GET['action'] ?? '';
+handleComments($_SERVER['REQUEST_METHOD'], $action);
