@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-define('API_BASE', 'http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api');
+define('API_BASE', 'http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api');
 
 // ─── CURL HELPER ─────────────────────────────────────────────────────────────
 function apiRequest(string $method, string $endpoint, array $data = [], string $token = ''): array {
