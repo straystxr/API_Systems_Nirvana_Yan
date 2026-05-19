@@ -8,31 +8,43 @@
   "item": [
     {
       "name": "GetMembership",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
       "request": {
         "auth": {
           "type": "bearer",
           "bearer": [
             {
               "key": "token",
-              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3NzcyMTl9.907e6f88732b7cd082626649c28ff0f5eb245a41debfb6d0946dab74e037860c",
+              "value": "eyJpZCI6NCwibmFtZSI6Ikphc29uIENlc2FyZSIsInJvbGUiOiJnZW5lcmFsIiwiZXhwIjoxNzc5MjAwODU3fQ==.11eb5f4e67d07cbb554613d2eb1740e9f05bf24b32a46f73a1ae24c56983a438",
               "type": "string"
             }
           ]
         },
         "method": "GET",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/users/7/membership",
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/memberships/4/membership",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "path": [
-            "API_Systems_Nirvana_Vella",
+            "API_Systems_Nirvana_Yan",
             "flashpoint-api",
             "api",
-            "users",
-            "7",
+            "memberships",
+            "4",
             "membership"
           ]
         }
@@ -47,7 +59,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3MDk1NjJ9.152d3cd814e1de11c680202388a41e93dfe8b7fe461917e8b16456134ad056e3",
+              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3NzcyMTl9.907e6f88732b7cd082626649c28ff0f5eb245a41debfb6d0946dab74e037860c",
               "type": "string"
             }
           ]
@@ -56,7 +68,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"tier_id\": 1\r\n}",
+          "raw": "{\r\n  \"tier_id\": 2\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -64,17 +76,17 @@
           }
         },
         "url": {
-          "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/users/7/membership",
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/memberships/4/membership",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "path": [
-            "API_Systems_Nirvana_Vella",
+            "API_Systems_Nirvana_Yan",
             "flashpoint-api",
             "api",
-            "users",
-            "7",
+            "memberships",
+            "4",
             "membership"
           ]
         }

@@ -14,7 +14,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3MDk1NjJ9.152d3cd814e1de11c680202388a41e93dfe8b7fe461917e8b16456134ad056e3",
+              "value": "eyJpZCI6NSwibmFtZSI6IktheWRlbiBDZXNhcmUiLCJyb2xlIjoiZ2VuZXJhbCIsImV4cCI6MTc3OTIwMjYxNH0=.c58c7d46328d1fec2c185e5b3a41526292972c9790461ef51c0337940bae9c7f",
               "type": "string"
             }
           ]
@@ -31,17 +31,17 @@
           }
         },
         "url": {
-          "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/users/7/password",
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/users/4/password",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "path": [
-            "API_Systems_Nirvana_Vella",
+            "API_Systems_Nirvana_Yan",
             "flashpoint-api",
             "api",
             "users",
-            "7",
+            "4",
             "password"
           ]
         }
@@ -55,7 +55,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"kyn@flashpoint.mt\",\r\n  \"password\": \"newpassword456\"\r\n}",
+          "raw": "{\r\n  \"email\": \"jsn@flashpoint.mt\",\r\n  \"password\": \"newpassword456\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -63,13 +63,13 @@
           }
         },
         "url": {
-          "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/auth/login",
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/login",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "path": [
-            "API_Systems_Nirvana_Vella",
+            "API_Systems_Nirvana_Yan",
             "flashpoint-api",
             "api",
             "auth",
@@ -93,13 +93,13 @@
               }
             },
             "url": {
-              "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/auth/login",
+              "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/login",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "path": [
-                "API_Systems_Nirvana_Vella",
+                "API_Systems_Nirvana_Yan",
                 "flashpoint-api",
                 "api",
                 "auth",
@@ -162,7 +162,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"kyn@flashpoint.mt\",\r\n  \"password\": \"newpassword456\"\r\n}",
+              "raw": "{\r\n  \"email\": \"jsn@flashpoint.mt\",\r\n  \"password\": \"newpassword456\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -170,13 +170,13 @@
               }
             },
             "url": {
-              "raw": "http://localhost/API_Systems_Nirvana_Vella/flashpoint-api/api/auth/login",
+              "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/login",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
               "path": [
-                "API_Systems_Nirvana_Vella",
+                "API_Systems_Nirvana_Yan",
                 "flashpoint-api",
                 "api",
                 "auth",
