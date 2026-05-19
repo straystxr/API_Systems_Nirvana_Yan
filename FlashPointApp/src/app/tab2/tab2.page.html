@@ -1,17 +1,120 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <div class="header-logo">
+      <img src="assets/FlashPoint_Graphics/logo.svg" alt="FlashPoint" class="header-logo-img"/>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="loadBookmarks($event)">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Loading..."></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="bookmarks-wrapper">
+
+    <!-- Header section on dark background -->
+    <div class="page-header">
+      <div class="page-title-row">
+        <ion-icon name="bookmark-outline" class="page-icon"></ion-icon>
+        <div>
+          <h1 class="page-title">Bookmarks</h1>
+          <p class="page-sub">Your saved articles</p>
+        </div>
+      </div>
+      <div class="bookmark-count" *ngIf="!loading">
+        {{ bookmarks.length }} {{ bookmarks.length === 1 ? 'article' : 'articles' }} saved
+      </div>
+    </div>
+
+    <!-- White card section -->
+    <div class="content-card">
+
+      <!-- Success message -->
+      <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <!-- Error message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Loading state -->
+      <div class="loading-state" *ngIf="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading your bookmarks...</p>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="!loading && bookmarks.length === 0 && !errorMessage">
+        <ion-icon name="bookmark-outline" class="empty-icon"></ion-icon>
+        <h3 class="empty-title">No bookmarks yet</h3>
+        <p class="empty-sub">Articles you save will appear here</p>
+      </div>
+
+      <!-- Bookmark list -->
+      <div class="bookmark-list" *ngIf="!loading && bookmarks.length > 0">
+        <div class="bookmark-card" *ngFor="let bookmark of bookmarks">
+
+          <!-- Category badge + date -->
+          <div class="bookmark-meta">
+            <span class="category-badge"
+              [style.background]="getCategoryColor(bookmark.category) + '20'"
+              [style.color]="getCategoryColor(bookmark.category)">
+              {{ bookmark.category || 'General' }}
+            </span>
+            <span class="bookmark-date">
+              <ion-icon name="time-outline"></ion-icon>
+              {{ formatDate(bookmark.bookmarked_at) }}
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="bookmark-title">{{ bookmark.title }}</h3>
+
+          <!-- Body preview -->
+          <p class="bookmark-body">{{ bookmark.body | slice:0:100 }}...</p>
+
+          <!-- Location if available -->
+          <div class="bookmark-location" *ngIf="bookmark.lat && bookmark.lng">
+            <ion-icon name="location-outline"></ion-icon>
+            <span>{{ bookmark.lat | number:'1.2-2' }}, {{ bookmark.lng | number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Source -->
+          <div class="bookmark-source" *ngIf="bookmark.source">
+            <ion-icon name="newspaper-outline"></ion-icon>
+            <span>{{ bookmark.source }}</span>
+          </div>
+
+          <!-- Verification status -->
+          <div class="verification-row">
+            <span class="verification-badge"
+              [class.verified]="bookmark.verification_status === 'verified'"
+              [class.in-progress]="bookmark.verification_status === 'in_progress'"
+              [class.unverified]="bookmark.verification_status === 'unverified'">
+              {{ bookmark.verification_status === 'verified' ? '✓ Verified'
+               : bookmark.verification_status === 'in_progress' ? '⏳ In Review'
+               : '○ Unverified' }}
+            </span>
+          </div>
+
+          <!-- Remove button -->
+          <button class="remove-btn"
+            (click)="removeBookmark(bookmark.id)"
+            [disabled]="removingId === bookmark.id">
+            <ion-icon name="trash-outline"></ion-icon>
+            {{ removingId === bookmark.id ? 'Removing...' : 'Remove Bookmark' }}
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </ion-content>
