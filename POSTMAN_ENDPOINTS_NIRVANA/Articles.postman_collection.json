@@ -1,0 +1,278 @@
+{
+  "info": {
+    "_postman_id": "1233050d-9f94-411f-810b-4b75b9b0984b",
+    "name": "Articles",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52229799"
+  },
+  "item": [
+    {
+      "name": "GetArticles",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkxNDgxNDQsImV4cCI6MTc3OTE1MTc0NH0.UvvlIGDFHD7PnVxcxvKvehm8RY58a8vUPx9FYMw1pBI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/articles.php?action=list&status=pending",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "articles.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "list"
+            },
+            {
+              "key": "status",
+              "value": "pending"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateArticle",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkxNDMwNzgsImV4cCI6MTc3OTE0NjY3OH0.spglg1_TrjeU7SVjbyvguahzECy0VpAfkQI6j_OalPU",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"New Protest in Valletta\",\n  \"body\": \"Hundreds gathered outside Parliament this morning...\",\n  \"category\": \"news\",\n  \"lat\": 35.8997,\n  \"lng\": 14.5147,\n  \"source\": \"FlashPoint Reporter\",\n  \"url\": \"https://example.com/article\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/articles.php?action=create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "articles.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "create"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "VerifyArticle",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkxNDgxNDQsImV4cCI6MTc3OTE1MTc0NH0.UvvlIGDFHD7PnVxcxvKvehm8RY58a8vUPx9FYMw1pBI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"article_id\": 1,\n  \"status\": \"in_progress\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/articles.php?action=verify",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "articles.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "verify"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "EditArticle",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkyMDAzNzUsImV4cCI6MTc3OTIwMzk3NX0.mRUkoihW15e2GNtAsBwPVPeTFIexWKVK8OYQDkHI_fk",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"article_id\": 1,\n    \"title\": \"Updated Title\",\n    \"body\": \"Updated content...\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/articles.php?action=edit",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "articles.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "edit"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteArticle",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkyMDAzNzUsImV4cCI6MTc3OTIwMzk3NX0.mRUkoihW15e2GNtAsBwPVPeTFIexWKVK8OYQDkHI_fk",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"article_id\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/articles.php?action=remove&_method=DELETE",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "articles.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "remove"
+            },
+            {
+              "key": "_method",
+              "value": "DELETE"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "info": {
+    "_postman_id": "66098331-0a0e-41b3-878b-2990f9cf25e0",
+    "name": "Comments",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52229799"
+  },
+  "item": [
+    {
+      "name": "GetComments",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkxNDgxNDQsImV4cCI6MTc3OTE1MTc0NH0.UvvlIGDFHD7PnVxcxvKvehm8RY58a8vUPx9FYMw1pBI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/comments.php?action=list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "comments.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "list"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleComment",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/comments.php?action=list&id=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "comments.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "list"
+            },
+            {
+              "key": "id",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CommentsByArticle",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/comments.php?action=byArticle&article_id=2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "comments.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "byArticle"
+            },
+            {
+              "key": "article_id",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateComment",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkxODczMDcsImV4cCI6MTc3OTE5MDkwN30.H2gO5wixVAEC-fJ4TIg8ivkTw2Yuvf9_s-D4qMx_EC4",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"body\": \"Great article!\",\n    \"article_id\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/comments.php?action=create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "comments.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "create"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "EditComment",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkyMDQ3NzMsImV4cCI6MTc3OTIwODM3M30.d5Hlp2vrf9Dwn5VsrvvGt55EfunyVBD8ZTLrfDx0Ur8",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 1,\n    \"body\": \"Updated comment text here\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/comments.php?action=edit",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "comments.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "edit"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteComment",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsIm5hbWUiOiJOaXJ2YW5hIFZlbGxhIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3NzkyMDQ3NzMsImV4cCI6MTc3OTIwODM3M30.d5Hlp2vrf9Dwn5VsrvvGt55EfunyVBD8ZTLrfDx0Ur8",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\" : 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core/comments.php?action=remove",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "comments.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "remove"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

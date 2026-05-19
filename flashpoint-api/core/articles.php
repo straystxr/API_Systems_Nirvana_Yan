@@ -3,10 +3,13 @@ require_once __DIR__ . '/../config.php';
 
 function handleArticles(string $method, string $action) {
     match ($action) {
+        //will be added to the base url to specify the method used 
         'list'     => articlesList($method),
         'create'   => articlesCreate($method),
         'verify'   => articlesVerify($method),
+        'edit'     => articleEdit($method), 
         'comments' => articlesComments($method),
+        'remove'   => articleDelete($method),
         default    => error('Articles endpoint not found', 404),
     };
 }
@@ -179,6 +182,107 @@ function articlesComments(string $method) {
     }
 
     error('Method not allowed', 405);
+}
+
+function articleEdit(string $method){
+    // PATCH /api/articles.php?action=edit || only the author of the article can edit it 
+    // & only the verifier can change the verification status
+    if ($method !== 'PATCH') error('Method not allowed', 405);
+
+    $user = requireAuth();
+    
+    $b = body();
+    if (empty($b['article_id'])) error('article_id required');
+
+    $db = getDB();
+
+    // Check article exists
+    $stmt = $db->prepare("SELECT user_id, status FROM articles WHERE id = ?");
+    $stmt->execute([$b['article_id']]);
+    $article = $stmt->fetch();
+    
+    if (!$article) error('Article not found', 404);
+    
+    // ONLY the author or admin can edit article content
+    if ($article['user_id'] !== $user['id'] && $user['role'] !== 'admin') {
+        error('Only the author can edit this article', 403);
+    }
+
+    // Build update dynamically
+    $fields = [];
+    $params = [];
+    
+    if (isset($b['title'])) {
+        $fields[] = "title = ?";
+        $params[] = $b['title'];
+    }
+    if (isset($b['body'])) {
+        $fields[] = "body = ?";
+        $params[] = $b['body'];
+    }
+    if (isset($b['category'])) {
+        $fields[] = "category = ?";
+        $params[] = $b['category'];
+    }
+    if (isset($b['lat'])) {
+        $fields[] = "lat = ?";
+        $params[] = $b['lat'];
+    }
+    if (isset($b['lng'])) {
+        $fields[] = "lng = ?";
+        $params[] = $b['lng'];
+    }
+    if (isset($b['source'])) {
+        $fields[] = "source = ?";
+        $params[] = $b['source'];
+    }
+
+    if (empty($fields)) error('No fields to update');
+
+    $params[] = $b['article_id'];
+    
+    $sql = "UPDATE articles SET " . implode(', ', $fields) . " WHERE id = ?";
+    $db->prepare($sql)->execute($params);
+
+    respond([
+        'message' => 'Article updated',
+        'article_id' => $b['article_id']
+    ]);
+}
+
+function articleDelete(string $method) {
+    if ($method !== 'DELETE') error('Method not allowed', 405);
+
+    $user = requireAuth();
+    $b = body();
+
+    if (empty($b['article_id'])) error('article_id required');
+
+    $db = getDB();
+
+    // First check if article exists and get owner
+    $stmt = $db->prepare("SELECT user_id FROM articles WHERE id = ?");
+    $stmt->execute([$b['article_id']]);
+    $article = $stmt->fetch();
+
+    if (!$article) {
+        error('Article not found', 404);
+    }
+
+    // Only owner or admin can delete
+    if ($article['user_id'] !== $user['id'] && $user['role'] !== 'admin') {
+        error('Only the author or admin can delete this article', 403);
+    }
+
+    // Delete the article
+    $db->prepare("DELETE FROM articles WHERE id = ?")->execute([$b['article_id']]);
+
+    respond(['message' => 'Article deleted']);
+}
+
+// Method override for servers that block DELETE/PATCH
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_GET['_method'])) {
+    $_SERVER['REQUEST_METHOD'] = strtoupper($_GET['_method']);
 }
 
 //route

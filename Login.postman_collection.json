@@ -1,0 +1,86 @@
+{
+  "info": {
+    "_postman_id": "76373987-e135-489d-8be3-066f37ac7512",
+    "name": "Login",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52229799"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nirvana@flashpoint.mt\",\n  \"password\": \"password123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/auth.php?action=login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "auth",
+            "auth.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "login"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Yan Cesare\",\n  \"username\": \"cesare_y\",\n  \"email\": \"yan@flashpoint.mt\",\n  \"password\": \"password123\",\n  \"role\": \"admin\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/auth.php?action=register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8888",
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "auth",
+            "auth.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "register"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

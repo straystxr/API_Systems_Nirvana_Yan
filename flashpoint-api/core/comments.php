@@ -8,7 +8,7 @@ function handleComments(string $method, string $action) {
         'byArticle' => commentsByArticle($method),
         'create'    => commentCreate($method),
         'edit'      => commentEdit($method),
-        'delete'    => commentDelete($method),
+        'remove'    => commentDelete($method),
         default     => error('Comments endpoint not found', 404),
     };
 }
@@ -107,26 +107,26 @@ function commentEdit(string $method) {
     $user = requireAuth();
     $b = body();
 
-    if (empty($b['id']))      error('id required');
-    if (empty($b['content'])) error('content required');
+    if (empty($b['id']))   error('id required');
+    if (empty($b['body'])) error('body required');  // changed from 'content'
 
     $db = getDB();
 
     // Verify ownership
-    $owner = $db->prepare("SELECT userId FROM comments WHERE id = ?");
+    $owner = $db->prepare("SELECT user_id FROM comments WHERE id = ?");
     $owner->execute([$b['id']]);
     $comment = $owner->fetch();
 
     if (!$comment) error('Comment not found', 404);
-    if ($comment['userId'] != $user['id']) error('Unauthorized', 403);
+    if ($comment['user_id'] != $user['id']) error('Unauthorized', 403);
 
     $stmt = $db->prepare("
         UPDATE comments
-        SET content = ?
+        SET body = ?          -- changed from 'content'
         WHERE id = ?
     ");
     $stmt->execute([
-        htmlspecialchars(strip_tags($b['content'])),
+        htmlspecialchars(strip_tags($b['body'])),
         $b['id']
     ]);
 
@@ -144,7 +144,7 @@ function commentDelete(string $method) {
     $db = getDB();
 
     // Fetch comment to check ownership
-    $stmt = $db->prepare("SELECT userId FROM comments WHERE id = ?");
+    $stmt = $db->prepare("SELECT user_id FROM comments WHERE id = ?");
     $stmt->execute([$b['id']]);
     $comment = $stmt->fetch();
 
@@ -152,7 +152,7 @@ function commentDelete(string $method) {
 
     // Allow if: admin, verifier, or original author
     $role = $user['role'] ?? '';
-    $isAuthor = $comment['userId'] == $user['id'];
+    $isAuthor = $comment['user_id'] == $user['id'];
     $canDelete = $isAuthor || in_array($role, ['admin', 'verifier'], true);
 
     if (!$canDelete) error('Unauthorized', 403);
@@ -162,6 +162,6 @@ function commentDelete(string $method) {
     respond(['message' => 'Comment deleted']);
 }
 
-// ─── ROUTE ───
+// route
 $action = $_GET['action'] ?? '';
 handleComments($_SERVER['REQUEST_METHOD'], $action);

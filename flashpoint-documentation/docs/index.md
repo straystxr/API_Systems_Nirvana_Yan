@@ -33,13 +33,15 @@ Tokens expire after 1 hour. Users must log in again after that 1 hour.
 ## All the Endpoints
 1. Register        POST auth/auth.php?action=register [done by Yan]
 2. Login           POST auth/auth.php?action=login  → copy access_token [done by Yan]
-3. View articles   GET  articles.php?action=list [done by Nirvana]
-4. Create article  POST articles.php?action=create  (journalist token) [done by Nirvana]
-5. Verify article  PATCH articles.php?action=verify (verifier token) [done by Nirvana]
-6. Comment         POST articles.php?action=comments [done by Nirvana]
-7. Bookmark        POST bookmarks.php?action=add [done by Nirvana]
-8. View bookmarks  GET  bookmarks.php?action=list [done by Nirvana]
-9. Remove bookmark DELETE bookmarks.php?action=remove [done by Nirvana]
+3. Memberships     [done by Yan]
+4. Users           [done by Yan]
+5. View articles   GET  articles.php?action=list [done by Nirvana]
+6. Create article  POST articles.php?action=create  (journalist token) [done by Nirvana]
+7. Verify article  PATCH articles.php?action=verify (verifier token) [done by Nirvana]
+8. Comment         POST articles.php?action=comments [done by Nirvana]
+9. Bookmark        POST bookmarks.php?action=add [done by Nirvana]
+10. View bookmarks  GET  bookmarks.php?action=list [done by Nirvana]
+11. Remove bookmark DELETE bookmarks.php?action=remove [done by Nirvana]
 
 ## Register Endpoint
 ## Login Endpoint
