@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../includes/helpers.php';
 
+require_once __DIR__ . '../../config.php';
 
 function handleBookmarks(string $method, string $action) {
     match ($action) {
@@ -66,11 +67,11 @@ function bookmarksAdd(string $method) {
 
         respond(['message' => 'Article bookmarked'], 201);
 
-    } 
-    
-  catch (Exception $e) {
-        if (str_contains($e->getMessage(), 'Duplicate')) 
-            error('Already bookmarked', 200);
+    } catch (Exception $e) {
+        if (str_contains($e->getMessage(), 'Duplicate')) {
+            error('Already bookmarked', 200); //not really an error
+        }
+        error('Failed to bookmark', 500);
     }
 }
 
