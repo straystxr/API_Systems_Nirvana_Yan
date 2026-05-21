@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../includes/helpers.php';
+//require_once __DIR__ . '/../includes/helpers.php';
 
-//require_once __DIR__ . '/../config.php';
+require_once dirname(__DIR__) . '/config.php';
 
 function handleArticles(string $method, string $action) {
     match ($action) {
@@ -39,7 +39,7 @@ function articlesList(string $method) {
 
     $sql = "SELECT a.*, u.username as author_name, u.display_name as author_display 
             FROM articles a 
-            JOIN users u ON a.user_id = u.id 
+            LEFT JOIN users u ON a.created_by = u.id
             WHERE 1=1";
     $params = [];
 
@@ -88,7 +88,7 @@ function articlesCreate(string $method) {
 
     try {
         $db->prepare("
-            INSERT INTO articles (user_id, title, body, category, lat, lng, url, source, status, verification_status)
+            INSERT INTO articles (created_by, title, body, category, lat, lng, url, source, status, verification_status)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'unverified')
         ")->execute([
             $user['id'],
@@ -139,7 +139,7 @@ function articlesVerify(string $method) {
 
     $db->prepare("
         UPDATE articles 
-        SET verification_status = ?, verifier_id = ?, status = ? 
+        SET verification_status = ?, verified_by = ?, status = ?
         WHERE id = ?
     ")->execute([
         $b['status'],

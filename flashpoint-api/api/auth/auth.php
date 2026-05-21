@@ -1,4 +1,7 @@
 <?php
+
+//require_once dirname(__DIR__) . '/config.php';
+
 function handleAuth(string $method, string $action) {
     match ($action) {
         'register' => authRegister($method),
@@ -120,7 +123,7 @@ function authLogin(string $method) {
 
     // Generate Bearer token
     $token = generateToken([
-        'id'  => $user['id'],
+        'sub'  => $user['id'],
         'name' => $user['display_name'],
         'role' => $user['user_type'],
     ]);

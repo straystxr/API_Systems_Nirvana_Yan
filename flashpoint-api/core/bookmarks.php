@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../includes/helpers.php';
+//require_once __DIR__ . '/../includes/helpers.php';
 
-//require_once __DIR__ . '../../config.php';
+require_once dirname(__DIR__) . '/config.php';
 
 function handleBookmarks(string $method, string $action) {
     match ($action) {

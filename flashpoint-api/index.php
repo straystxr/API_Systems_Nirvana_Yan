@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-require_once __DIR__ . '/includes/helpers.php';
+//require_once __DIR__ . '/includes/helpers.php';
+require_once __DIR__ . '/config.php';
 
 // ─── ROUTER ──────────────────────────────────────────────────
 $method = $_SERVER['REQUEST_METHOD'];
