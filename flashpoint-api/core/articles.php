@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../includes/helpers.php';
 
-require_once __DIR__ . '/../config.php';
+//require_once __DIR__ . '/../config.php';
 
 function handleArticles(string $method, string $action) {
     match ($action) {
