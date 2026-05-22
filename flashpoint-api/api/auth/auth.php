@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(dirname(__DIR__)) . '/config.php';
+//require_once dirname(dirname(__DIR__)) . '/config.php';
 
 function handleAuth(string $method, string $action) {
     match ($action) {
@@ -252,5 +252,5 @@ function authGoogleLogin(string $method) {
 }
 
 */
-$action = $_GET['action'] ?? '';
-handleAuth($_SERVER['REQUEST_METHOD'], $action);
+// $action = $_GET['action'] ?? '';
+// handleAuth($_SERVER['REQUEST_METHOD'], $action);
