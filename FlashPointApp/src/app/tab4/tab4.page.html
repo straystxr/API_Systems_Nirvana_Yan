@@ -1,17 +1,170 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 4
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" [scrollY]="false">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 4</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Loading -->
+  <div class="loading-screen" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading videos...</p>
+  </div>
 
-  <app-explore-container name="Tab 4 page"></app-explore-container>
+  <!-- Empty state -->
+  <div class="empty-screen" *ngIf="!loading && videos.length === 0">
+    <div class="empty-icon">🎬</div>
+    <h2>No videos yet</h2>
+    <p>Be the first to upload a video report</p>
+    <button class="empty-upload-btn" (click)="openUpload()">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+      Upload Video
+    </button>
+  </div>
+
+  <!-- TikTok feed -->
+  <div class="videos-container" *ngIf="!loading && videos.length > 0">
+
+    <div class="video-slide" *ngFor="let video of videos; let i = index"
+      (click)="togglePlayPause($event)">
+
+      <!-- Video -->
+      <video
+        #videoEl
+        class="video-player"
+        [src]="video.url"
+        [muted]="muted"
+        loop
+        playsinline
+        preload="metadata"
+        *ngIf="video.url">
+      </video>
+
+      <!-- Placeholder when no URL -->
+      <div class="video-placeholder" *ngIf="!video.url">
+        <div class="placeholder-gradient"
+          [style.background]="'linear-gradient(135deg,' + getCategoryColor(video.article_category) + '88,#0d1b3e)'">
+          <div class="placeholder-icon">📰</div>
+          <p class="placeholder-text">{{ video.article_category | titlecase }} Report</p>
+        </div>
+      </div>
+
+      <!-- Gradient overlay -->
+      <div class="video-overlay"></div>
+
+      <!-- Top bar -->
+      <div class="top-bar">
+        <img src="assets/FlashPoint_Graphics/logo.svg" alt="FlashPoint" class="top-logo"/>
+        <div class="top-right">
+          <button class="control-btn" (click)="toggleMute(); $event.stopPropagation()">
+            <ion-icon [name]="muted ? 'volume-mute-outline' : 'volume-high-outline'"></ion-icon>
+          </button>
+          <button class="control-btn upload-btn" (click)="openUpload(); $event.stopPropagation()">
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Verification badge -->
+      <div class="verification-badge" [style.background]="getVerificationColor(video.verification_status)">
+        {{ getVerificationLabel(video.verification_status) }}
+      </div>
+
+      <!-- Right side actions -->
+      <div class="side-actions" (click)="$event.stopPropagation()">
+        <button class="action-btn" (click)="toggleLike(video)">
+          <ion-icon [name]="video.liked ? 'heart' : 'heart-outline'"
+            [style.color]="video.liked ? '#E24B4A' : '#fff'"></ion-icon>
+          <span class="action-label">Like</span>
+        </button>
+        <button class="action-btn">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <span class="action-label">Comment</span>
+        </button>
+        <button class="action-btn" (click)="toggleBookmark(video)">
+          <ion-icon name="bookmark-outline"
+            [style.color]="video.bookmarked ? '#f5a623' : '#fff'"></ion-icon>
+          <span class="action-label">Save</span>
+        </button>
+        <button class="action-btn">
+          <ion-icon name="share-outline"></ion-icon>
+          <span class="action-label">Share</span>
+        </button>
+        <div class="category-dot" [style.background]="getCategoryColor(video.article_category)"></div>
+      </div>
+
+      <!-- Bottom info -->
+      <div class="video-info">
+        <div class="uploader-row">
+          <div class="uploader-avatar">{{ (video.uploader_name || 'F')[0].toUpperCase() }}</div>
+          <span class="uploader-name">@{{ video.uploader_username || 'flashpoint' }}</span>
+        </div>
+        <h3 class="video-title">{{ video.article_title || 'FlashPoint Report' }}</h3>
+        <p class="video-body" *ngIf="video.article_body">{{ video.article_body | slice:0:120 }}...</p>
+        <span class="category-tag"
+          [style.background]="getCategoryColor(video.article_category) + '33'"
+          [style.color]="getCategoryColor(video.article_category)">
+          {{ video.article_category || 'news' }}
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── UPLOAD MODAL ─────────────────────────────────────────────────────── -->
+  <div class="upload-modal" *ngIf="showUploadModal">
+    <div class="upload-backdrop" (click)="closeUpload()"></div>
+    <div class="upload-sheet">
+
+      <div class="upload-header">
+        <h3 class="upload-title">Upload Video</h3>
+        <button class="close-upload" (click)="closeUpload()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+
+      <!-- File picker area -->
+      <div class="file-pick-area" (click)="pickFile()" *ngIf="!previewUrl">
+        <div class="file-pick-icon">🎬</div>
+        <p class="file-pick-text">Tap to select a video</p>
+        <p class="file-pick-sub">MP4, WebM or OGG • Max 1GB</p>
+      </div>
+
+      <!-- Video preview -->
+      <div class="preview-wrap" *ngIf="previewUrl">
+        <video [src]="previewUrl" class="preview-video" controls muted></video>
+        <button class="change-file-btn" (click)="pickFile()">Change video</button>
+      </div>
+
+      <!-- Hidden file input -->
+      <input #fileInput type="file" accept="video/mp4,video/webm,video/ogg"
+        style="display:none" (change)="onFileSelected($event)"/>
+
+      <!-- Article ID -->
+      <div class="upload-form-group">
+        <label class="upload-label">Link to Article ID (optional)</label>
+        <input type="number" class="upload-input" placeholder="e.g. 1"
+          [(ngModel)]="articleId"/>
+      </div>
+
+      <!-- Messages -->
+      <div class="upload-error" *ngIf="uploadError">{{ uploadError }}</div>
+      <div class="upload-success" *ngIf="uploadSuccess">{{ uploadSuccess }}</div>
+
+      <!-- Upload button -->
+      <button class="upload-confirm-btn"
+        (click)="uploadVideo()"
+        [disabled]="!selectedFile || uploading">
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+        {{ uploading ? 'Uploading...' : 'Upload Video' }}
+      </button>
+
+      <!-- Progress indicator -->
+      <div class="upload-progress" *ngIf="uploading">
+        <div class="progress-bar"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating upload button (when videos exist) -->
+  <button class="fab-upload" (click)="openUpload()" *ngIf="!loading && videos.length > 0">
+    <ion-icon name="add-circle-outline"></ion-icon>
+  </button>
+
 </ion-content>

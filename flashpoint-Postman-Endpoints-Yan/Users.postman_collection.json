@@ -1,0 +1,238 @@
+{
+  "info": {
+    "_postman_id": "37738ead-b9f4-4f35-9e96-44adfedbca1a",
+    "name": "Users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52229721"
+  },
+  "item": [
+    {
+      "name": "GetProfile",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJpZCI6NywibmFtZSI6IktheWRlbiBDZXNhcmUiLCJyb2xlIjoiZ2VuZXJhbCIsImV4cCI6MTc3OTE0OTc1OH0=.aefc398cc74f8c29e0c978365736aa31c074f58b90194ecd1980dd843403b7c0",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/users/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "users",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PostUsers",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Kayden Cesare\",\r\n  \"username\": \"kayden_cesare\",\r\n  \"email\": \"kyn@flashpoint.mt\",\r\n  \"password\": \"password123\",\r\n  \"role\": \"general\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UploadPFP",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3MDk1NjJ9.152d3cd814e1de11c680202388a41e93dfe8b7fe461917e8b16456134ad056e3",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "photo\n",
+              "type": "file",
+              "uuid": "ed8d1570-c34a-41d0-9361-2390d93a3760",
+              "value": null
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/users/7/photo",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "users",
+            "7",
+            "photo"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetBookmarks",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJpZCI6NCwibmFtZSI6Ikphc29uIENlc2FyZSIsInJvbGUiOiJnZW5lcmFsIiwiZXhwIjoxNzc5MjAwODU3fQ==.11eb5f4e67d07cbb554613d2eb1740e9f05bf24b32a46f73a1ae24c56983a438",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/core/bookmarks.php?action=list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "bookmarks.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "list"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PostBookmarks",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJpZCI6NSwibmFtZSI6IktheWRlbiBDZXNhcmUiLCJyb2xlIjoiZ2VuZXJhbCIsImV4cCI6MTc3OTIwNzc3Mn0=.5a233e8484c74a32bd8847eabe7102e77727e8abf9517eb27962c9b3f9f6919b",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"article_id\": 48\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/core/bookmarks.php?action=add",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "core",
+            "bookmarks.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "add"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteAccountbyAdmin",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJpZCI6MywibmFtZSI6Ikxvcml0YSBDZXNhcmUiLCJyb2xlIjoiZ2VuZXJhbCIsImV4cCI6MTc3OTIwNDA4MX0=.2875f5a5868385008ede63c15de64ffedf3a1315f225f528810e8c3672aa1fd1",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/users/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "users",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

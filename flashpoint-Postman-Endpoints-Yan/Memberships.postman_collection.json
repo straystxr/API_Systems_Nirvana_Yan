@@ -1,0 +1,97 @@
+{
+  "info": {
+    "_postman_id": "cf189360-2679-477d-a72f-44d22872c74b",
+    "name": "Memberships",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52229721"
+  },
+  "item": [
+    {
+      "name": "GetMembership",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJpZCI6NCwibmFtZSI6Ikphc29uIENlc2FyZSIsInJvbGUiOiJnZW5lcmFsIiwiZXhwIjoxNzc5MjAwODU3fQ==.11eb5f4e67d07cbb554613d2eb1740e9f05bf24b32a46f73a1ae24c56983a438",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/memberships/4/membership",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "memberships",
+            "4",
+            "membership"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ChangePlan",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJzdWIiOjcsIm5hbWUiOiJLYXlkZW4gQ2VzYXJlIiwicm9sZSI6ImdlbmVyYWwiLCJleHAiOjE3Nzg3NzcyMTl9.907e6f88732b7cd082626649c28ff0f5eb245a41debfb6d0946dab74e037860c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"tier_id\": 2\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/memberships/4/membership",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "API_Systems_Nirvana_Yan",
+            "flashpoint-api",
+            "api",
+            "memberships",
+            "4",
+            "membership"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

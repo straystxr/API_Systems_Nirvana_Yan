@@ -43,7 +43,7 @@ pageHeader('Login', 'login');
     <form method="POST">
       <div class="form-group">
         <label class="form-label">Username</label>
-        <input type="text" name="username" class="form-input" placeholder="jon_cesare" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
+        <input type="text" name="username" class="form-input" placeholder="yan_cesare" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>

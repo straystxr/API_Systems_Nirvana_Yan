@@ -48,15 +48,15 @@ pageHeader('Register', 'register');
     <form method="POST">
       <div class="form-group">
         <label class="form-label">Full Name</label>
-        <input type="text" name="name" class="form-input" placeholder="Jon Cesare" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
+        <input type="text" name="name" class="form-input" placeholder="Yan Cesare" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
       </div>
       <div class="form-group">
         <label class="form-label">Username</label>
-        <input type="text" name="username" class="form-input" placeholder="jon_cesare" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
+        <input type="text" name="username" class="form-input" placeholder="yan_cesare" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
       </div>
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-input" placeholder="jon@flashpoint.mt" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+        <input type="email" name="email" class="form-input" placeholder="yan@flashpoint.mt" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost/API_Systems_Nirvana_Vella/myapi'
+  apiUrl: 'http://localhost/API_Systems_Nirvana_Yan/myapi'
 };
 
 /*

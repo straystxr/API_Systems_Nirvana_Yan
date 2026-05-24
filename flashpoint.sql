@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2026 at 06:51 PM
+-- Generation Time: May 20, 2026 at 12:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,6 +63,15 @@ CREATE TABLE `bookmarks` (
   `article_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bookmarks`
+--
+
+INSERT INTO `bookmarks` (`id`, `user_id`, `article_id`, `created_at`) VALUES
+(1, 4, 48, '2026-05-19 15:42:01'),
+(4, 4, 50, '2026-05-19 15:42:53'),
+(6, 5, 48, '2026-05-19 17:23:05');
 
 -- --------------------------------------------------------
 
@@ -148,6 +157,14 @@ CREATE TABLE `memberships` (
   `tier_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `memberships`
+--
+
+INSERT INTO `memberships` (`id`, `user_id`, `tier_id`) VALUES
+(2, 4, 2),
+(3, 5, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -176,9 +193,9 @@ CREATE TABLE `membershiptiers` (
 --
 
 INSERT INTO `membershiptiers` (`id`, `name`, `price_eur`, `description`, `can_remove_ads`, `can_upload_media`, `can_post_news`, `can_access_vacancies`, `can_receive_fast_notifications`, `can_get_discounts`, `can_bookmark`, `can_comment`, `can_react`, `can_view_videos_early`) VALUES
-(1, 'Basic', 0.00, NULL, 0, 0, 0, NULL, 0, 0, NULL, NULL, NULL, 0),
-(2, 'Premium', 5.99, 'Unlimited comments & media · No ads · Save articles', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'Journalism', 12.99, 'Everything in Premium · Post articles · Custom journalist profile · Verified badge', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 'Basic', 0.00, NULL, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+(2, 'Premium', 5.99, 'Unlimited comments & media · No ads · Save articles', 1, 1, 0, 1, 0, 1, 1, 1, 1, 0),
+(3, 'Journalism', 12.99, 'Everything in Premium · Post articles · Custom journalist profile · Verified badge', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -243,17 +260,18 @@ CREATE TABLE `users` (
   `membership_id` int(11) DEFAULT NULL,
   `is_verified` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `is_deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `display_name`, `profile_photo_url`, `user_type`, `membership_id`, `is_verified`, `created_at`, `updated_at`) VALUES
-(1, 'yan_cesare', 'cesarey2004@gmail.com', 'yan345678', 'Yan', NULL, NULL, 3, 0, '2026-05-04 19:46:20', '2026-05-05 16:22:04'),
-(2, NULL, 'jsn@flashpoint.mt', '$2y$10$p/JPD9Z2q0/B1PfeMJjWw.DmxuqWxG0iaD6B/00onUFhoTdwDeTNS', 'Jason Cesare', NULL, 'general', NULL, 0, '2026-05-05 16:43:04', '2026-05-05 16:43:04'),
-(3, 'Lorita_cesare', 'lrt@flashpoint.mt', '$2y$10$C0K7mRPiU3uTTikogmeHeeLF5Y2C2H9vYnwVm18DUH/sspsD9Yvc2', 'Lorita Cesare', NULL, 'general', NULL, 0, '2026-05-05 16:48:52', '2026-05-05 16:48:52');
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `display_name`, `profile_photo_url`, `user_type`, `membership_id`, `is_verified`, `created_at`, `updated_at`, `is_deleted`) VALUES
+(1, 'yan_cesare', 'cesarey2004@gmail.com', 'yan345678', 'Yan', NULL, NULL, 3, 0, '2026-05-04 19:46:20', '2026-05-05 16:22:04', 0),
+(4, 'jason_cesare', 'jsn@flashpoint.mt', '$2y$10$ogsdDuD3l1Vbk.BBTB/u5OiKb.7VVtc6/Yeq5RJi37iHJgTOziIne', 'Jason Cesare', NULL, 'general', 2, 0, '2026-05-19 13:27:12', '2026-05-19 22:10:35', 0),
+(5, 'kayden_cesare', 'kyn@flashpoint.mt', '$2y$10$xjEtoVLMevVGiyyWioF1.eWCF.G3LwosEZgT8puO6vwCkGHzMbB06', 'Kayden Cesare', NULL, 'general', 3, 0, '2026-05-19 13:56:32', '2026-05-19 13:57:21', 0);
 
 -- --------------------------------------------------------
 
@@ -305,7 +323,7 @@ ALTER TABLE `articles`
 --
 ALTER TABLE `bookmarks`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`article_id`) USING BTREE,
   ADD KEY `article_id` (`article_id`);
 
 --
@@ -415,7 +433,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `bookmarks`
 --
 ALTER TABLE `bookmarks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -445,7 +463,7 @@ ALTER TABLE `media`
 -- AUTO_INCREMENT for table `memberships`
 --
 ALTER TABLE `memberships`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `membershiptiers`
@@ -475,7 +493,7 @@ ALTER TABLE `sponsors`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `vacancies`
