@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-define('API_BASE', 'http://localhost:8888/API_Systems_Nirvana_Vella/flashpoint-api/core');
-define('AUTH_BASE', 'http://localhost:8888/API_Systems_Nirvana_Vella/flashpoint-api/api/auth/auth.php');
+define('API_BASE', 'http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/core');
+define('AUTH_BASE', 'http://localhost:8888/API_Systems_Nirvana_Yan/flashpoint-api/api/auth/auth.php');
 
 function apiRequest(string $method, string $url, array $data = [], string $token = ''): array {
     $ch = curl_init($url);
