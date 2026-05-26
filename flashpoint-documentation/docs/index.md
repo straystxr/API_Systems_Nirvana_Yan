@@ -1054,7 +1054,319 @@ Cause: Status value is not one of the allowed options
 * 404 - Article Not Found
 Cause: No article exists with the provided article_id
 ## Comment - GET/POST/PATCH
+### GET 
+Comments are linked to articles. Any logged-in user can post a comment regardless of their role. The GET endpoint for reading comments is public — no token needed.
+
+GET — Get Comments on an Article
+```
+GET articles.php?action=comments&article_id={id}
+```
+Returns all comments posted on a specific article. This endpoint is public — no token needed.
+```
+GET articles.php?action=comments&article_id=1
+```
+### Query String Parameters
+| Parameters | Type | Description |
+|-------------|--------|-----|
+| action | string | Must be comments |
+| article_id | integer | The id of the article to be able to fetch comments |
+
+### Success Response
+200 - Success
+```
+json{
+  "comments": [
+    {
+      "id": 1,
+      "article_id": 1,
+      "user_id": 2,
+      "body": "I was there this morning, very peaceful crowd.",
+      "created_at": "2026-05-16 11:00:00",
+      "username": "nirvana_vella",
+      "display_name": "Nirvana Vella"
+    }
+  ]
+}
+```
+### Error Responses
+400 - Missing article_id
+```
+json{
+  "error": "article_id required"
+}
+```
+Cause: article_id was not included in the URL.
+
+### POST — Add a Comment
+```
+POST articles.php?action=comments
+```
+* Posts a new comment on an article. 
+* Requires authentication. 
+* Any logged-in user can comment regardless of role.
+### Headers Required
+HeaderValueAuthorizationBearer **YOUR_TOKEN_HERE**
+
+Content-Typeapplication/json
+#### Request Body
+```
+json{
+  "article_id": 1,
+  "body": "I was there this morning, very peaceful crowd."
+}
+```
+### Success Response
+201 - Successfully Created
+```
+json{
+  "message": "Comment added"
+}
+```
+### Error Responses
+401 - Unauthorized
+```
+json{
+  "error": "No token provided"
+}
+```
+Cause: Authorization header missing or token invalid.
+
+400 - Missing article_id
+```
+json{
+  "error": "article_id required"
+}
+```
+Cause: article_id field is absent from the request body.
+
+400 - Missing body
+```
+json{
+  "error": "body required"
+}
+```
+Cause: Comment text is empty or missing.
+
+404 - Article Not Found
+```
+json{
+  "error": "Article not found"
+}
+```
+Cause: No article exists with the provided article_id.
+
+### PATCH — Edit a Comment
+```
+PATCH articles.php?action=edit_comment
+```
+* Edits an existing comment. 
+* Requires authentication. 
+* Only the original author of the comment or an admin can edit it.
+### Headers Required
+HeaderValueAuthorizationBearer YOUR_TOKEN_HERE
+
+Content-Typeapplication/json
+
+#### Request Body
+```
+json{
+  "id": 1,
+  "body": "Updated comment text here."
+}
+```
+#### Success Response
+200 - Success
+```
+json{
+  "message": "Comment updated"
+}
+```
+#### Error Responses
+401 - Unauthorized
+Cause: No token provided or token is invalid.
+
+403 - Forbidden
+Cause: User is not the author of the comment or an admin.
+
+404 - Not Found
+Cause: No comment exists with the provided id.
+
+### DELETE — Delete a Comment
+```
+DELETE articles.php?action=remove
+```
+* Deletes a comment. 
+* Requires authentication. 
+* Only the original author or an admin can delete a comment.
+#### Headers Required
+HeaderValueAuthorizationBearer YOUR_TOKEN_HERE
+
+Content-Typeapplication/json
+#### Request Body
+```
+json{
+  "id": 1
+}
+```
+
+#### Success Response
+200 - Success
+```
+json{
+  "message": "Comment deleted"
+}
+```
+#### Error Responses
+401 - Unauthorized
+Cause: No token provided or token is invalid.
+
+403 - Forbidden
+Cause: User is not the author of the comment or an admin.
+
+404 - Not Found
+Cause: No comment exists with the provided id.
+
 ## Bookmark - POST
+```
+POST bookmarks.php?action=add
+```
+* Saves an article to the logged-in user's bookmarks. 
+* Each article can only be bookmarked once per user, attempting to bookmark the same article twice will return a 409 error.
+### Headers Required
+HeaderValueAuthorizationBearer YOUR_TOKEN_HERE
+
+Content-Typeapplication/json
+### Request Body
+```
+json{
+  "article_id": 1
+}
+```
+### Success Response
+201 - Successfully Created
+```
+json{
+  "message": "Article bookmarked"
+}
+```
+### Error Responses
+401 - Unauthorized
+```
+json{
+  "error": "No token provided"
+}
+```
+Cause: Authorization header missing or token invalid.
+
+400 - Missing article_id
+```
+json{
+  "error": "article_id required"
+}
+```
+Cause: article_id field is absent from the request body.
+
+404 - Article Not Found
+```
+json{
+  "error": "Article not found"
+}
+```
+Cause: No article exists with the provided article_id.
+
+409 - Already Bookmarked
+```
+json{
+  "error": "Already bookmarked"
+}
+```
+Cause: This article is already saved in the user's bookmarks. Cannot bookmark the same article twice.
 ## View Bookmark - GET
+```
+GET bookmarks.php?action=list
+```
+* Returns all articles the logged-in user has bookmarked, including the full article details and the date it was bookmarked. 
+* Each user only sees their own bookmarks.
+### Headers Required
+HeaderValueAuthorizationBearer YOUR_TOKEN_HERE
+No Request Body Needed
+### Success Response
+200 - Success
+```
+json{
+  "count": 1,
+  "bookmarks": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "title": "New Protest in Valletta",
+      "body": "Hundreds gathered outside Parliament...",
+      "category": "politics",
+      "status": "pending",
+      "verification_status": "unverified",
+      "created_at": "2026-05-16 10:30:00",
+      "bookmarked_at": "2026-05-16 12:00:00"
+    }
+  ]
+}
+```
+### Error Responses
+401 - Unauthorized
+```
+json{
+  "error": "No token provided"
+}
+```
+Cause: Authorization header missing or token invalid.
 ## Remove Bookmark - DELETE
+```
+DELETE bookmarks.php?action=remove
+```
+* Removes an article from the logged-in user's bookmarks.
+* A user can only remove their own bookmarks — not another user's.
+
+Even though this is a DELETE request, you still need to send a JSON body. In Postman select Body → raw → JSON and include the article_id as shown below.
+
+### Headers Required
+HeaderValueAuthorizationBearer YOUR_TOKEN_HERE
+
+Content-Typeapplication/json
+### Request Body
+```
+json{
+  "article_id": 1
+}
+```
+
+### Success Response
+200 - Successfully Removed
+```
+json{
+  "message": "Bookmark removed"
+}
+```
+Error Responses
+401 - Unauthorized
+```
+json{
+  "error": "No token provided"
+}
+```
+Cause: Authorization header missing or token invalid.
+
+400 - Missing article_id
+```
+json{
+  "error": "article_id required"
+}
+```
+Cause: article_id field is absent from the request body.
+
+404 - Bookmark Not Found
+```
+json{
+  "error": "Bookmark not found"
+}
+```
+Cause: This article was never bookmarked by the logged-in user.
 
