@@ -20,10 +20,10 @@ Regular Users will only be able to view articles, bookmarks articles and comment
 Premium users will be separated into two, regular premium & journalistic.
 #### Regular Premium
 Regular premium users will have access to all the articles but will only be able to view them not create, comments are unlimited and can be with media (the media will also be verified by the admin team). These users will also be given customization to their profile but without a portfolio section.
-#### Journalistic Premium
+#### Journalism Premium
 These users will be the only type of users apart from admin which will be able to post articles upon this map with media, their posts must be verified by an admin, their profile will also be customizable but with a portfolio section to showcase their abilities + an opportunity to find a job.
 ## Admin
-The admin users will be able to verify, delete any content going against the "guidelines", be able to upload short-form videos on the media tab and will be able to do any changes necessary so basically anything that is programmed to do within the application.
+The admin users will be able to verify, delete any content going against the "guidelines", be able to upload short-form videos on the media tab and will be able to do any changes necessary so basically anything that is programmed to do within the application. The content verified by admin will be the articles written by those who have the Journalism Premium
 
 ## Core Classes
 The Flashpoint application has the following classes which allow us to manipulate any data that needs to be manipulated from the database which is connected through the config.php/helpers.php
