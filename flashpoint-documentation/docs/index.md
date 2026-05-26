@@ -44,7 +44,868 @@ Tokens expire after 1 hour. Users must log in again after that 1 hour.
 11. Remove bookmark DELETE bookmarks.php?action=remove [done by Nirvana]
 
 ## Register Endpoint
+
+### POST auth/auth.php?action=register
+
+* Creates a new user account in the FlashPoint application.
+* This is a **public endpoint** — no authentication required.
+* Upon successful registration, the user account is created and can immediately proceed to login.
+
+#### Endpoint URL
+```
+POST auth/auth.php?action=register
+```
+
+#### Headers Required
+```
+Content-Type: application/json
+```
+
+#### Request Body
+All fields are required unless marked as optional.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| email | string | Yes | User's email address (must be unique and valid format) |
+| username | string | Yes | User's chosen username (must be unique, 3-20 characters) |
+| password | string | Yes | User's password (minimum 6 characters recommended) |
+| first_name | string | Yes | User's first name |
+| last_name | string | Yes | User's last name |
+| role | string | Optional | User role: `general`, `journalist`, `verifier`, or `admin` (defaults to `general` if not provided) |
+
+#### Example Request
+
+**cURL:**
+```bash
+curl -X POST "auth/auth.php?action=register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@example.com",
+    "username": "johndoe",
+    "password": "SecurePass123!",
+    "first_name": "John",
+    "last_name": "Doe",
+    "role": "general"
+  }'
+```
+
+**JavaScript (fetch):**
+```javascript
+const response = await fetch('auth/auth.php?action=register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'john.doe@example.com',
+    username: 'johndoe',
+    password: 'SecurePass123!',
+    first_name: 'John',
+    last_name: 'Doe',
+    role: 'general'
+  })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+#### Success Response
+
+**Status Code:** `201 - Successfully Created`
+
+```json
+{
+  "message": "User registered successfully",
+  "user": {
+    "id": 1,
+    "email": "john.doe@example.com",
+    "username": "johndoe",
+    "first_name": "John",
+    "last_name": "Doe",
+    "role": "general",
+    "created_at": "2026-05-26 10:30:00"
+  }
+}
+```
+
+**Response Fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message | string | Success confirmation message |
+| user | object | The created user object |
+| user.id | integer | Unique user identifier |
+| user.email | string | User's email address |
+| user.username | string | User's username |
+| user.first_name | string | User's first name |
+| user.last_name | string | User's last name |
+| user.role | string | User's assigned role |
+| user.created_at | string | Timestamp of account creation |
+
+#### Error Responses
+
+**400 - Bad Request — Missing Required Fields**
+```json
+{
+  "error": "Email, username, password, first name, and last name are required"
+}
+```
+**Cause:** One or more required fields are missing from the request body.
+
+---
+
+**400 - Bad Request — Invalid Email Format**
+```json
+{
+  "error": "Invalid email format"
+}
+```
+**Cause:** The provided email address does not match a valid email format.
+
+---
+
+**409 - Conflict — Email Already Exists**
+```json
+{
+  "error": "Email already exists"
+}
+```
+**Cause:** Another user has already registered with this email address.
+
+---
+
+**409 - Conflict — Username Already Exists**
+```json
+{
+  "error": "Username already exists"
+}
+```
+**Cause:** Another user has already registered with this username.
+
+---
+
+**400 - Bad Request — Invalid Role**
+```json
+{
+  "error": "Invalid role. Must be one of: general, journalist, verifier, admin"
+}
+```
+**Cause:** The provided role is not one of the allowed values.
+
+---
+
+**500 - Server Error**
+```json
+{
+  "error": "Failed to register user"
+}
+```
+**Cause:** An unexpected database or server error occurred. Contact support if this persists.
+
+#### Validation Rules
+
+**Email:**
+- Must match standard email format (e.g., `user@domain.com`)
+- Must be unique across all users (case-insensitive)
+- Required field
+
+**Username:**
+- Length: 3-20 characters
+- Must be unique across all users
+- Alphanumeric characters, underscores, and hyphens allowed
+- Required field
+
+**Password:**
+- Minimum length: 6 characters (8+ recommended for security)
+- Stored as a hashed value using bcrypt or similar
+- Never returned in API responses
+- Required field
+
+**First Name & Last Name:**
+- Both are required fields
+- Used for display purposes throughout the application
+
+**Role:**
+- Optional field (defaults to `general` if not provided)
+- Must be one of: `general`, `journalist`, `verifier`, or `admin`
+- Determines user permissions within the application
+
+#### Security Notes
+
+- Passwords are securely hashed using bcrypt before storage
+- The password is never stored in plain text
+- The password is never returned in any API response
+- Email addresses are validated for proper format
+- Duplicate emails and usernames are prevented
+
+#### Usage Example - Complete Registration Flow
+
+```javascript
+async function registerUser(userData) {
+  try {
+    const response = await fetch('auth/auth.php?action=register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.error);
+    }
+    
+    console.log('Registration successful:', data);
+    // Redirect to login page
+    window.location.href = '/login.html';
+    
+  } catch (error) {
+    console.error('Registration failed:', error.message);
+    alert(error.message);
+  }
+}
+
+// Usage
+registerUser({
+  email: 'user@example.com',
+  username: 'newuser',
+  password: 'securepassword',
+  first_name: 'Jane',
+  last_name: 'Smith',
+  role: 'journalist'
+});
+```
+
+#### Next Steps After Registration
+
+1. User account is successfully created in the database
+2. User can immediately proceed to the [Login Endpoint](#login-endpoint)
+3. After logging in, user receives an access token
+4. User can begin using the application based on their assigned role
+
+---
+
 ## Login Endpoint
+
+### POST auth/auth.php?action=login
+
+* Authenticates a user and returns a JWT access token.
+* This is a **public endpoint** — no prior authentication required.
+* The access token must be included in the Authorization header for all protected endpoints.
+* **Token expires after 1 hour** — users must log in again after expiration.
+
+#### Endpoint URL
+```
+POST auth/auth.php?action=login
+```
+
+#### Headers Required
+```
+Content-Type: application/json
+```
+
+#### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| email | string | Yes* | User's registered email address |
+| username | string | Yes* | User's registered username |
+| password | string | Yes | User's password |
+
+*Note: Provide **either** `email` OR `username` (depending on your implementation preference). The example below uses `email`.
+
+#### Example Request
+
+**cURL:**
+```bash
+curl -X POST "auth/auth.php?action=login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@example.com",
+    "password": "SecurePass123!"
+  }'
+```
+
+**Using Username Instead:**
+```bash
+curl -X POST "auth/auth.php?action=login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "johndoe",
+    "password": "SecurePass123!"
+  }'
+```
+
+**JavaScript (fetch):**
+```javascript
+const response = await fetch('auth/auth.php?action=login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'john.doe@example.com',
+    password: 'SecurePass123!'
+  })
+});
+
+const data = await response.json();
+
+if (response.ok) {
+  // Store the access token for future requests
+  localStorage.setItem('access_token', data.access_token);
+  console.log('Login successful');
+} else {
+  console.error('Login failed:', data.error);
+}
+```
+
+#### Success Response
+
+**Status Code:** `200 - Success`
+
+```json
+{
+  "message": "Login successful",
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3MTY3MjAwMDAsImV4cCI6MTcxNjcyMzYwMH0.abc123def456ghi789",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "user": {
+    "id": 1,
+    "email": "john.doe@example.com",
+    "username": "johndoe",
+    "first_name": "John",
+    "last_name": "Doe",
+    "role": "journalist"
+  }
+}
+```
+
+**Response Fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message | string | Success confirmation message |
+| access_token | string | JWT authentication token (copy this!) |
+| token_type | string | Token type (always "Bearer") |
+| expires_in | integer | Token lifetime in seconds (3600 = 1 hour) |
+| user | object | Authenticated user information |
+| user.id | integer | User's unique identifier |
+| user.email | string | User's email address |
+| user.username | string | User's username |
+| user.first_name | string | User's first name |
+| user.last_name | string | User's last name |
+| user.role | string | User's role (general, journalist, verifier, admin) |
+
+#### Token Information
+
+**Important Details:**
+- **Token Type:** JWT (JSON Web Token)
+- **Expiration:** 1 hour (3600 seconds)
+- **Usage:** Include in `Authorization` header as `Bearer <token>`
+- **Storage:** Store securely (localStorage for web, secure storage for mobile)
+
+**Token Format in Requests:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+#### Error Responses
+
+**400 - Bad Request — Missing Credentials**
+```json
+{
+  "error": "Email/username and password are required"
+}
+```
+**Cause:** Required credentials (email/username or password) are missing from the request.
+
+---
+
+**401 - Unauthorized — Invalid Credentials**
+```json
+{
+  "error": "Invalid credentials"
+}
+```
+**Cause:** The provided email/username and password combination is incorrect.
+
+**Common Reasons:**
+- Email/username doesn't exist in the system
+- Password is incorrect (passwords are case-sensitive)
+- Account may be locked or disabled
+
+---
+
+**404 - Not Found — User Not Found**
+```json
+{
+  "error": "User not found"
+}
+```
+**Cause:** No user exists with the provided email/username.
+
+---
+
+**500 - Server Error**
+```json
+{
+  "error": "Login failed"
+}
+```
+**Cause:** An unexpected error occurred during authentication. Contact support if this persists.
+
+#### Using the Access Token
+
+Once you receive the access token, include it in the `Authorization` header of all requests to **protected endpoints**.
+
+**Header Format:**
+```
+Authorization: Bearer <your-access-token-here>
+```
+
+**Example: Creating an Article (Protected Endpoint)**
+
+**JavaScript:**
+```javascript
+const token = localStorage.getItem('access_token');
+
+const response = await fetch('articles.php?action=create', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    title: 'Breaking News',
+    body: 'Article content here...',
+    category: 'news',
+    lat: 35.8997,
+    lng: 14.5147,
+    source: 'FlashPoint Reporter'
+  })
+});
+
+const data = await response.json();
+```
+
+**cURL:**
+```bash
+curl -X POST "articles.php?action=create" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Breaking News",
+    "body": "Article content here...",
+    "category": "news",
+    "lat": 35.8997,
+    "lng": 14.5147,
+    "source": "FlashPoint Reporter"
+  }'
+```
+
+#### Token Expiration Handling
+
+Tokens expire after **1 hour**. When a token expires, protected endpoints will return:
+
+**401 - Unauthorized — Token Expired**
+```json
+{
+  "error": "Token expired"
+}
+```
+
+**Solution:** Request a new token by logging in again.
+
+**Checking Token Expiration (JavaScript):**
+```javascript
+function isTokenExpired(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expirationTime = payload.exp * 1000; // Convert to milliseconds
+    return Date.now() >= expirationTime;
+  } catch (error) {
+    return true; // Treat malformed tokens as expired
+  }
+}
+
+// Usage
+const token = localStorage.getItem('access_token');
+if (isTokenExpired(token)) {
+  // Redirect to login
+  window.location.href = '/login.html';
+}
+```
+
+#### Complete Login Flow Example
+
+```javascript
+class AuthService {
+  constructor() {
+    this.tokenKey = 'access_token';
+  }
+  
+  async login(email, password) {
+    try {
+      const response = await fetch('auth/auth.php?action=login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
+      
+      // Store token and user info
+      localStorage.setItem(this.tokenKey, data.access_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      console.log('Login successful:', data.user);
+      return data;
+      
+    } catch (error) {
+      console.error('Login failed:', error.message);
+      throw error;
+    }
+  }
+  
+  logout() {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('user');
+    window.location.href = '/login.html';
+  }
+  
+  getToken() {
+    return localStorage.getItem(this.tokenKey);
+  }
+  
+  isAuthenticated() {
+    const token = this.getToken();
+    if (!token) return false;
+    
+    // Check if token is expired
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return Date.now() < payload.exp * 1000;
+    } catch {
+      return false;
+    }
+  }
+  
+  async fetchProtected(url, options = {}) {
+    const token = this.getToken();
+    
+    if (!token || !this.isAuthenticated()) {
+      this.logout();
+      throw new Error('Not authenticated');
+    }
+    
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    // Handle token expiration
+    if (response.status === 401) {
+      this.logout();
+      throw new Error('Session expired');
+    }
+    
+    return response;
+  }
+}
+
+// Usage
+const auth = new AuthService();
+
+// Login
+try {
+  await auth.login('user@example.com', 'password123');
+  window.location.href = '/dashboard.html';
+} catch (error) {
+  alert(error.message);
+}
+
+// Make authenticated request
+try {
+  const response = await auth.fetchProtected('articles.php?action=create', {
+    method: 'POST',
+    body: JSON.stringify({ /* article data */ })
+  });
+  const data = await response.json();
+} catch (error) {
+  console.error(error);
+}
+
+// Logout
+auth.logout();
+```
+
+#### Security Best Practices
+
+**DO:**
+- Always use HTTPS in production
+- Store tokens securely (httpOnly cookies recommended for web apps)
+- Implement token refresh mechanisms for better user experience
+- Validate token on every protected request server-side
+- Log security events (failed logins, suspicious activity)
+- Implement account lockout after multiple failed attempts
+
+**DON'T:**
+- Don't send tokens in URL parameters (they're logged everywhere)
+- Don't store tokens in plain cookies without httpOnly flag
+- Don't use extremely long expiration times
+- Don't log tokens in console or analytics in production
+- Don't share tokens between users
+- Don't skip HTTPS in production environments
+
+#### Troubleshooting
+
+**"Invalid credentials" error:**
+
+**Possible Causes:**
+1. Incorrect email/username or password
+2. User account doesn't exist (may need to register first)
+3. Account may be locked or disabled
+4. Password is case-sensitive
+
+**Solutions:**
+- Verify email/username spelling
+- Check password (ensure correct case)
+- Ensure user has registered via the [Register Endpoint](#register-endpoint)
+- Contact support if account appears locked
+
+---
+
+**Token not working with protected endpoints:**
+
+**Possible Causes:**
+1. Token has expired (1 hour limit)
+2. Token format is incorrect in Authorization header
+3. Missing "Bearer " prefix
+4. Token was corrupted during storage
+
+**Solutions:**
+- Check token expiration and re-login if needed
+- Verify Authorization header format: `Bearer <token>`
+- Ensure no extra spaces or line breaks in token
+- Clear localStorage and login again
+
+#### Role-Based Access After Login
+
+Based on the user's role, different endpoints become available:
+
+| Role | Permissions |
+|------|-------------|
+| **general** | Read articles, bookmark articles, comment on articles |
+| **journalist** | Everything general can do + create articles |
+| **verifier** | Everything general can do + verify/remove media |
+| **admin** | Full access to all endpoints and features |
+
+**Example: Checking User Role**
+```javascript
+const user = JSON.parse(localStorage.getItem('user'));
+
+if (user.role === 'journalist' || user.role === 'admin') {
+  // Show "Create Article" button
+  document.getElementById('createArticleBtn').style.display = 'block';
+}
+
+if (user.role === 'verifier' || user.role === 'admin') {
+  // Show "Verify Article" button
+  document.getElementById('verifyArticleBtn').style.display = 'block';
+}
+```
+
+#### Next Steps After Login
+
+1. Store the `access_token` securely
+2. Include the token in all requests to protected endpoints
+3. Access features based on your assigned role
+4. Re-login when token expires (after 1 hour)
+
+---
+## Memberships Endpoint
+
+The Memberships resource manages a user's current membership tier. Each user is automatically assigned a **Basic** membership on registration. Memberships can be retrieved and upgraded through these endpoints.
+
+
+---
+
+#### Membership Tiers
+
+| Tier ID | Name | Price | Description |
+|---------|------|-------|-------------|
+| 1 | Basic | Free | Default tier — read articles, comment, bookmark |
+| 2 | Premium | €5.99/mo | No ads, upload media, save articles |
+| 3 | Journalism | €12.99/mo | Everything in Premium + post articles, verified badge |
+
+---
+
+#### GET — Get User Membership
+`GET /api/memberships/{userId}/membership`
+
+Returns the current membership tier details and all feature flags for the specified user. Requires authentication.
+
+### Headers Required
+| Header | Value |
+|--------|-------|
+| `Authorization` | `Bearer YOUR_TOKEN_HERE` |
+
+### URL Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `userId` | integer | ✅ | The ID of the user whose membership to retrieve |
+
+### Example Request
+```
+GET http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/memberships/7/membership
+Authorization: Bearer eyJ0eXAi...
+```
+
+### Success Response
+**200 - OK**
+```json
+{
+  "membership": {
+    "tier_id": 1,
+    "name": "Basic",
+    "price_eur": "0.00",
+    "description": "Default free membership",
+    "can_remove_ads": false,
+    "can_upload_media": false,
+    "can_post_news": false,
+    "can_bookmark": true,
+    "can_comment": true,
+    "can_react": true,
+    "can_get_discounts": false,
+    "can_access_vacancies": false,
+    "can_receive_fast_notifications": false,
+    "can_view_videos_early": false,
+    "membership_id": 1
+  }
+}
+```
+
+### Error Responses
+| Status | Error | Cause |
+|--------|-------|-------|
+| `404` | `"Membership not found"` | No membership exists for this user ID |
+| `401` | `"No token provided"` | Authorization header missing |
+| `404` | `"Endpoint not found"` | Wrong URL structure or missing action |
+
+---
+
+#### PATCH — Update User Membership
+`PATCH /api/memberships/{userId}/membership`
+
+Updates the user's membership to a new tier. Requires authentication. The user can upgrade to a higher tier or downgrade back to Basic (tier_id = 1) to cancel their subscription.
+
+### Headers Required
+| Header | Value |
+|--------|-------|
+| `Authorization` | `Bearer YOUR_TOKEN_HERE` |
+| `Content-Type` | `application/json` |
+
+### URL Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `userId` | integer | ✅ | The ID of the user whose membership to update |
+
+### Request Body
+```json
+{
+  "tier_id": 2
+}
+```
+
+### Fields
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `tier_id` | integer | ✅ | The ID of the tier to switch to. 1 = Basic, 2 = Premium, 3 = Journalism |
+
+### Example — Upgrade to Premium
+```json
+{
+  "tier_id": 2
+}
+```
+
+### Example — Cancel Subscription (back to Basic)
+```json
+{
+  "tier_id": 1
+}
+```
+
+### Success Response
+**200 - OK**
+```json
+{
+  "message": "Membership updated successfully"
+}
+```
+
+### Error Responses
+| Status | Error | Cause |
+|--------|-------|-------|
+| `400` | `"tier_id is required"` | tier_id field missing from request body |
+| `401` | `"No token provided"` | Authorization header missing |
+| `500` | `"Failed to update membership"` | Database error |
+
+---
+
+#### Feature Flags Reference
+
+Each membership tier returns a set of boolean feature flags indicating what the user can and cannot do:
+
+| Flag | Description |
+|------|-------------|
+| `can_remove_ads` | User sees no advertisements |
+| `can_upload_media` | User can upload images and videos |
+| `can_post_news` | User can create and publish articles |
+| `can_bookmark` | User can save articles to bookmarks |
+| `can_comment` | User can comment on articles |
+| `can_react` | User can react to articles |
+| `can_get_discounts` | User receives discount offers |
+| `can_access_vacancies` | User can view journalism job listings |
+| `can_receive_fast_notifications` | User gets priority breaking news alerts |
+| `can_view_videos_early` | User gets early access to video content |
+
+---
+
+#### Postman Collection
+
+**Folder:** `Memberships`
+
+| Request Name | Method | URL |
+|-------------|--------|-----|
+| Get Membership – Success (200) | GET | `/api/memberships/7/membership` |
+| Get Membership – Not Found (404) | GET | `/api/memberships/999/membership` |
+| Get Membership – No Token (401) | GET | `/api/memberships/7/membership` |
+| Upgrade to Premium (200) | PATCH | `/api/memberships/7/membership` |
+| Upgrade to Journalism (200) | PATCH | `/api/memberships/7/membership` |
+| Cancel Subscription – Basic (200) | PATCH | `/api/memberships/7/membership` |
+| Update Membership – Missing tier_id (400) | PATCH | `/api/memberships/7/membership` |
+
+---
+
+#### Notes
+
+- The `tier_id` in the response refers to the `membershipTiers` table ID, not the `memberships` table ID
+- `membership_id` in the response is the row ID from the `memberships` join table
+- Downgrading to `tier_id: 1` (Basic) effectively cancels any paid subscription
+- There is no payment validation on this endpoint — payment processing is handled separately through the in-app payment flow before this endpoint is called
+
+
 ## View Articles - GET
 * Returns a list of all articles.
 * This endpoint is public — no token needed.

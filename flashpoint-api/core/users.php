@@ -144,5 +144,41 @@ function handleUsers(string $method, string $userId, string $action){
         error('Failed to delete user', 500);
     }
 
+    // UPLOAD PHOTO
+if ($action === 'photo' && $method === 'POST') {
+    $authUser = verifyToken();
+    if ((string)$authUser['id'] !== $userId) error('Forbidden', 403);
+
+    if (empty($_FILES['photo'])) error('No photo uploaded', 400);
+
+    $file    = $_FILES['photo'];
+    $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    $maxSize = 5 * 1024 * 1024;
+
+    if (!in_array($file['type'], $allowed)) error('Invalid file type', 400);
+    if ($file['size'] > $maxSize) error('File too large. Max 5MB', 400);
+
+    $uploadDir = __DIR__ . '/../../uploads/profiles/';
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+
+    $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $filename = 'user_' . $userId . '_' . time() . '.' . $ext;
+
+    if (!move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) {
+        error('Failed to save photo', 500);
+    }
+
+    $isMamp   = file_exists('/Applications/MAMP/htdocs');
+    $port     = $isMamp ? ':8888' : '';
+    $photoUrl = "http://localhost{$port}/API_Systems_Nirvana_Yan/flashpoint-api/uploads/profiles/{$filename}";
+
+    $db->prepare("UPDATE users SET profile_photo_url = ? WHERE id = ?")
+       ->execute([$photoUrl, $userId]);
+
+    respond(['message' => 'Photo updated', 'photo_url' => $photoUrl]);
+    return;
+}
+
     error('Endpoint not found', 404);
+
 }
