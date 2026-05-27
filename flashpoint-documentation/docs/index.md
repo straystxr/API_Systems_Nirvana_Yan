@@ -1,4 +1,5 @@
 # FlashPoint API Documentation
+Link to Github Pages: https://straystxr.github.io/API_Systems_Nirvana_Yan/
 
 ## API Used
 This application uses a RESTful API principles. With every request, there will be a JSON response. Some of the endpoints are public and accessible by any user while others aren't, meaning the user has to be logged to access **protected endpoints.**
