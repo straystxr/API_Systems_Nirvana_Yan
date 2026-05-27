@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>FlashPoint API Systems Collections</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">FlashPoint API Systems Collections</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#flashpoint-api-documentation" class="nav-link">FlashPoint API Documentation</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#api-used" class="nav-link">API Used</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#different-types-of-users" class="nav-link">Different Types of Users</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#http-source-codes-within-application" class="nav-link">HTTP Source Codes within Application</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#all-the-endpoints" class="nav-link">All the Endpoints</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#register-endpoint" class="nav-link">Register Endpoint</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#login-endpoint" class="nav-link">Login Endpoint</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#memberships-endpoint" class="nav-link">Memberships Endpoint</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#view-articles-get" class="nav-link">View Articles - GET</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#create-articles-post" class="nav-link">Create Articles - POST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#verify-articles-patch" class="nav-link">Verify Articles - PATCH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#comment-getpostpatch" class="nav-link">Comment - GET/POST/PATCH</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#bookmark-post" class="nav-link">Bookmark - POST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#view-bookmark-get" class="nav-link">View Bookmark - GET</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#remove-bookmark-delete" class="nav-link">Remove Bookmark - DELETE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="flashpoint-api-documentation">FlashPoint API Documentation</h1>
+<h2 id="api-used">API Used</h2>
+<p>This application uses a RESTful API principles. With every request, there will be a JSON response. Some of the endpoints are public and accessible by any user while others aren't, meaning the user has to be logged to access <strong>protected endpoints.</strong></p>
+<h3 id="authentication-flow">Authentication Flow</h3>
+<ol>
+<li>Register a user account</li>
+<li>Log in to receive an access token</li>
+<li>Include the token in the Authorization header of every protected request</li>
+</ol>
+<p>Authorization: Bearer <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>...
+Tokens expire after 1 hour. Users must log in again after that 1 hour.</p>
+<h2 id="different-types-of-users">Different Types of Users</h2>
+<ul>
+<li>General - This user will not be permitted to create articles, is able to read articles, bookmark and comment on them.</li>
+<li>Journalistic - Everything a general user can do + create articles</li>
+<li>Verifier - Everything a general user can do but will be able to verify/remove any type of media on the application.</li>
+<li>Admin - This user type is allowed to do everything and have access to everything.</li>
+</ul>
+<h2 id="http-source-codes-within-application">HTTP Source Codes within Application</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Source</strong></th>
+<th><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Successfully created</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad request — missing or invalid data</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized — no token or invalid token</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden — you don't have permission</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not found — resource doesn't exist</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method not allowed — wrong HTTP verb</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict — already exists (e.g. duplicate bookmark)</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Server error</td>
+</tr>
+</tbody>
+</table>
+<h2 id="all-the-endpoints">All the Endpoints</h2>
+<ol>
+<li>Register        POST auth/auth.php?action=register [done by Yan]</li>
+<li>Login           POST auth/auth.php?action=login  → copy access_token [done by Yan]</li>
+<li>Memberships     [done by Yan]</li>
+<li>Users           [done by Yan]</li>
+<li>View articles   GET  articles.php?action=list [done by Nirvana]</li>
+<li>Create article  POST articles.php?action=create  (journalist token) [done by Nirvana]</li>
+<li>Verify article  PATCH articles.php?action=verify (verifier token) [done by Nirvana]</li>
+<li>Comment         POST articles.php?action=comments [done by Nirvana]</li>
+<li>Bookmark        POST bookmarks.php?action=add [done by Nirvana]</li>
+<li>View bookmarks  GET  bookmarks.php?action=list [done by Nirvana]</li>
+<li>Remove bookmark DELETE bookmarks.php?action=remove [done by Nirvana]</li>
+</ol>
+<h2 id="register-endpoint">Register Endpoint</h2>
+<h3 id="post-authauthphpactionregister">POST auth/auth.php?action=register</h3>
+<ul>
+<li>Creates a new user account in the FlashPoint application.</li>
+<li>This is a <strong>public endpoint</strong> — no authentication required.</li>
+<li>Upon successful registration, the user account is created and can immediately proceed to login.</li>
+</ul>
+<h4 id="endpoint-url">Endpoint URL</h4>
+<pre><code>POST auth/auth.php?action=register
+</code></pre>
+<h4 id="headers-required">Headers Required</h4>
+<pre><code>Content-Type: application/json
+</code></pre>
+<h4 id="request-body">Request Body</h4>
+<p>All fields are required unless marked as optional.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Yes</td>
+<td>User's email address (must be unique and valid format)</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Yes</td>
+<td>User's chosen username (must be unique, 3-20 characters)</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>Yes</td>
+<td>User's password (minimum 6 characters recommended)</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>Yes</td>
+<td>User's first name</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>Yes</td>
+<td>User's last name</td>
+</tr>
+<tr>
+<td>role</td>
+<td>string</td>
+<td>Optional</td>
+<td>User role: <code>general</code>, <code>journalist</code>, <code>verifier</code>, or <code>admin</code> (defaults to <code>general</code> if not provided)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-request">Example Request</h4>
+<p><strong>cURL:</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;auth/auth.php?action=register&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;email&quot;: &quot;john.doe@example.com&quot;,
+    &quot;username&quot;: &quot;johndoe&quot;,
+    &quot;password&quot;: &quot;SecurePass123!&quot;,
+    &quot;first_name&quot;: &quot;John&quot;,
+    &quot;last_name&quot;: &quot;Doe&quot;,
+    &quot;role&quot;: &quot;general&quot;
+  }'
+</code></pre>
+<p><strong>JavaScript (fetch):</strong></p>
+<pre><code class="language-javascript">const response = await fetch('auth/auth.php?action=register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'john.doe@example.com',
+    username: 'johndoe',
+    password: 'SecurePass123!',
+    first_name: 'John',
+    last_name: 'Doe',
+    role: 'general'
+  })
+});
+
+const data = await response.json();
+console.log(data);
+</code></pre>
+<h4 id="success-response">Success Response</h4>
+<p><strong>Status Code:</strong> <code>201 - Successfully Created</code></p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;User registered successfully&quot;,
+  &quot;user&quot;: {
+    &quot;id&quot;: 1,
+    &quot;email&quot;: &quot;john.doe@example.com&quot;,
+    &quot;username&quot;: &quot;johndoe&quot;,
+    &quot;first_name&quot;: &quot;John&quot;,
+    &quot;last_name&quot;: &quot;Doe&quot;,
+    &quot;role&quot;: &quot;general&quot;,
+    &quot;created_at&quot;: &quot;2026-05-26 10:30:00&quot;
+  }
+}
+</code></pre>
+<p><strong>Response Fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td>string</td>
+<td>Success confirmation message</td>
+</tr>
+<tr>
+<td>user</td>
+<td>object</td>
+<td>The created user object</td>
+</tr>
+<tr>
+<td>user.id</td>
+<td>integer</td>
+<td>Unique user identifier</td>
+</tr>
+<tr>
+<td>user.email</td>
+<td>string</td>
+<td>User's email address</td>
+</tr>
+<tr>
+<td>user.username</td>
+<td>string</td>
+<td>User's username</td>
+</tr>
+<tr>
+<td>user.first_name</td>
+<td>string</td>
+<td>User's first name</td>
+</tr>
+<tr>
+<td>user.last_name</td>
+<td>string</td>
+<td>User's last name</td>
+</tr>
+<tr>
+<td>user.role</td>
+<td>string</td>
+<td>User's assigned role</td>
+</tr>
+<tr>
+<td>user.created_at</td>
+<td>string</td>
+<td>Timestamp of account creation</td>
+</tr>
+</tbody>
+</table>
+<h4 id="error-responses">Error Responses</h4>
+<p><strong>400 - Bad Request — Missing Required Fields</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Email, username, password, first name, and last name are required&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> One or more required fields are missing from the request body.</p>
+<hr />
+<p><strong>400 - Bad Request — Invalid Email Format</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Invalid email format&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> The provided email address does not match a valid email format.</p>
+<hr />
+<p><strong>409 - Conflict — Email Already Exists</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Email already exists&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> Another user has already registered with this email address.</p>
+<hr />
+<p><strong>409 - Conflict — Username Already Exists</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Username already exists&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> Another user has already registered with this username.</p>
+<hr />
+<p><strong>400 - Bad Request — Invalid Role</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Invalid role. Must be one of: general, journalist, verifier, admin&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> The provided role is not one of the allowed values.</p>
+<hr />
+<p><strong>500 - Server Error</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Failed to register user&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> An unexpected database or server error occurred. Contact support if this persists.</p>
+<h4 id="validation-rules">Validation Rules</h4>
+<p><strong>Email:</strong>
+- Must match standard email format (e.g., <code>user@domain.com</code>)
+- Must be unique across all users (case-insensitive)
+- Required field</p>
+<p><strong>Username:</strong>
+- Length: 3-20 characters
+- Must be unique across all users
+- Alphanumeric characters, underscores, and hyphens allowed
+- Required field</p>
+<p><strong>Password:</strong>
+- Minimum length: 6 characters (8+ recommended for security)
+- Stored as a hashed value using bcrypt or similar
+- Never returned in API responses
+- Required field</p>
+<p><strong>First Name &amp; Last Name:</strong>
+- Both are required fields
+- Used for display purposes throughout the application</p>
+<p><strong>Role:</strong>
+- Optional field (defaults to <code>general</code> if not provided)
+- Must be one of: <code>general</code>, <code>journalist</code>, <code>verifier</code>, or <code>admin</code>
+- Determines user permissions within the application</p>
+<h4 id="security-notes">Security Notes</h4>
+<ul>
+<li>Passwords are securely hashed using bcrypt before storage</li>
+<li>The password is never stored in plain text</li>
+<li>The password is never returned in any API response</li>
+<li>Email addresses are validated for proper format</li>
+<li>Duplicate emails and usernames are prevented</li>
+</ul>
+<h4 id="usage-example-complete-registration-flow">Usage Example - Complete Registration Flow</h4>
+<pre><code class="language-javascript">async function registerUser(userData) {
+  try {
+    const response = await fetch('auth/auth.php?action=register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error);
+    }
+
+    console.log('Registration successful:', data);
+    // Redirect to login page
+    window.location.href = '/login.html';
+
+  } catch (error) {
+    console.error('Registration failed:', error.message);
+    alert(error.message);
+  }
+}
+
+// Usage
+registerUser({
+  email: 'user@example.com',
+  username: 'newuser',
+  password: 'securepassword',
+  first_name: 'Jane',
+  last_name: 'Smith',
+  role: 'journalist'
+});
+</code></pre>
+<h4 id="next-steps-after-registration">Next Steps After Registration</h4>
+<ol>
+<li>User account is successfully created in the database</li>
+<li>User can immediately proceed to the <a href="#login-endpoint">Login Endpoint</a></li>
+<li>After logging in, user receives an access token</li>
+<li>User can begin using the application based on their assigned role</li>
+</ol>
+<hr />
+<h2 id="login-endpoint">Login Endpoint</h2>
+<h3 id="post-authauthphpactionlogin">POST auth/auth.php?action=login</h3>
+<ul>
+<li>Authenticates a user and returns a JWT access token.</li>
+<li>This is a <strong>public endpoint</strong> — no prior authentication required.</li>
+<li>The access token must be included in the Authorization header for all protected endpoints.</li>
+<li><strong>Token expires after 1 hour</strong> — users must log in again after expiration.</li>
+</ul>
+<h4 id="endpoint-url_1">Endpoint URL</h4>
+<pre><code>POST auth/auth.php?action=login
+</code></pre>
+<h4 id="headers-required_1">Headers Required</h4>
+<pre><code>Content-Type: application/json
+</code></pre>
+<h4 id="request-body_1">Request Body</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Yes*</td>
+<td>User's registered email address</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Yes*</td>
+<td>User's registered username</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>Yes</td>
+<td>User's password</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Provide </em><em>either</em>* <code>email</code> OR <code>username</code> (depending on your implementation preference). The example below uses <code>email</code>.</p>
+<h4 id="example-request_1">Example Request</h4>
+<p><strong>cURL:</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;auth/auth.php?action=login&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;email&quot;: &quot;john.doe@example.com&quot;,
+    &quot;password&quot;: &quot;SecurePass123!&quot;
+  }'
+</code></pre>
+<p><strong>Using Username Instead:</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;auth/auth.php?action=login&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;username&quot;: &quot;johndoe&quot;,
+    &quot;password&quot;: &quot;SecurePass123!&quot;
+  }'
+</code></pre>
+<p><strong>JavaScript (fetch):</strong></p>
+<pre><code class="language-javascript">const response = await fetch('auth/auth.php?action=login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'john.doe@example.com',
+    password: 'SecurePass123!'
+  })
+});
+
+const data = await response.json();
+
+if (response.ok) {
+  // Store the access token for future requests
+  localStorage.setItem('access_token', data.access_token);
+  console.log('Login successful');
+} else {
+  console.error('Login failed:', data.error);
+}
+</code></pre>
+<h4 id="success-response_1">Success Response</h4>
+<p><strong>Status Code:</strong> <code>200 - Success</code></p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Login successful&quot;,
+  &quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImpvdXJuYWxpc3QiLCJpYXQiOjE3MTY3MjAwMDAsImV4cCI6MTcxNjcyMzYwMH0.abc123def456ghi789&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;user&quot;: {
+    &quot;id&quot;: 1,
+    &quot;email&quot;: &quot;john.doe@example.com&quot;,
+    &quot;username&quot;: &quot;johndoe&quot;,
+    &quot;first_name&quot;: &quot;John&quot;,
+    &quot;last_name&quot;: &quot;Doe&quot;,
+    &quot;role&quot;: &quot;journalist&quot;
+  }
+}
+</code></pre>
+<p><strong>Response Fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td>string</td>
+<td>Success confirmation message</td>
+</tr>
+<tr>
+<td>access_token</td>
+<td>string</td>
+<td>JWT authentication token (copy this!)</td>
+</tr>
+<tr>
+<td>token_type</td>
+<td>string</td>
+<td>Token type (always "Bearer")</td>
+</tr>
+<tr>
+<td>expires_in</td>
+<td>integer</td>
+<td>Token lifetime in seconds (3600 = 1 hour)</td>
+</tr>
+<tr>
+<td>user</td>
+<td>object</td>
+<td>Authenticated user information</td>
+</tr>
+<tr>
+<td>user.id</td>
+<td>integer</td>
+<td>User's unique identifier</td>
+</tr>
+<tr>
+<td>user.email</td>
+<td>string</td>
+<td>User's email address</td>
+</tr>
+<tr>
+<td>user.username</td>
+<td>string</td>
+<td>User's username</td>
+</tr>
+<tr>
+<td>user.first_name</td>
+<td>string</td>
+<td>User's first name</td>
+</tr>
+<tr>
+<td>user.last_name</td>
+<td>string</td>
+<td>User's last name</td>
+</tr>
+<tr>
+<td>user.role</td>
+<td>string</td>
+<td>User's role (general, journalist, verifier, admin)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="token-information">Token Information</h4>
+<p><strong>Important Details:</strong>
+- <strong>Token Type:</strong> JWT (JSON Web Token)
+- <strong>Expiration:</strong> 1 hour (3600 seconds)
+- <strong>Usage:</strong> Include in <code>Authorization</code> header as <code>Bearer &lt;token&gt;</code>
+- <strong>Storage:</strong> Store securely (localStorage for web, secure storage for mobile)</p>
+<p><strong>Token Format in Requests:</strong></p>
+<pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+</code></pre>
+<h4 id="error-responses_1">Error Responses</h4>
+<p><strong>400 - Bad Request — Missing Credentials</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Email/username and password are required&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> Required credentials (email/username or password) are missing from the request.</p>
+<hr />
+<p><strong>401 - Unauthorized — Invalid Credentials</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Invalid credentials&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> The provided email/username and password combination is incorrect.</p>
+<p><strong>Common Reasons:</strong>
+- Email/username doesn't exist in the system
+- Password is incorrect (passwords are case-sensitive)
+- Account may be locked or disabled</p>
+<hr />
+<p><strong>404 - Not Found — User Not Found</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;User not found&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> No user exists with the provided email/username.</p>
+<hr />
+<p><strong>500 - Server Error</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Login failed&quot;
+}
+</code></pre>
+<p><strong>Cause:</strong> An unexpected error occurred during authentication. Contact support if this persists.</p>
+<h4 id="using-the-access-token">Using the Access Token</h4>
+<p>Once you receive the access token, include it in the <code>Authorization</code> header of all requests to <strong>protected endpoints</strong>.</p>
+<p><strong>Header Format:</strong></p>
+<pre><code>Authorization: Bearer &lt;your-access-token-here&gt;
+</code></pre>
+<p><strong>Example: Creating an Article (Protected Endpoint)</strong></p>
+<p><strong>JavaScript:</strong></p>
+<pre><code class="language-javascript">const token = localStorage.getItem('access_token');
+
+const response = await fetch('articles.php?action=create', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    title: 'Breaking News',
+    body: 'Article content here...',
+    category: 'news',
+    lat: 35.8997,
+    lng: 14.5147,
+    source: 'FlashPoint Reporter'
+  })
+});
+
+const data = await response.json();
+</code></pre>
+<p><strong>cURL:</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;articles.php?action=create&quot; \
+  -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;title&quot;: &quot;Breaking News&quot;,
+    &quot;body&quot;: &quot;Article content here...&quot;,
+    &quot;category&quot;: &quot;news&quot;,
+    &quot;lat&quot;: 35.8997,
+    &quot;lng&quot;: 14.5147,
+    &quot;source&quot;: &quot;FlashPoint Reporter&quot;
+  }'
+</code></pre>
+<h4 id="token-expiration-handling">Token Expiration Handling</h4>
+<p>Tokens expire after <strong>1 hour</strong>. When a token expires, protected endpoints will return:</p>
+<p><strong>401 - Unauthorized — Token Expired</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;Token expired&quot;
+}
+</code></pre>
+<p><strong>Solution:</strong> Request a new token by logging in again.</p>
+<p><strong>Checking Token Expiration (JavaScript):</strong></p>
+<pre><code class="language-javascript">function isTokenExpired(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expirationTime = payload.exp * 1000; // Convert to milliseconds
+    return Date.now() &gt;= expirationTime;
+  } catch (error) {
+    return true; // Treat malformed tokens as expired
+  }
+}
+
+// Usage
+const token = localStorage.getItem('access_token');
+if (isTokenExpired(token)) {
+  // Redirect to login
+  window.location.href = '/login.html';
+}
+</code></pre>
+<h4 id="complete-login-flow-example">Complete Login Flow Example</h4>
+<pre><code class="language-javascript">class AuthService {
+  constructor() {
+    this.tokenKey = 'access_token';
+  }
+
+  async login(email, password) {
+    try {
+      const response = await fetch('auth/auth.php?action=login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
+
+      // Store token and user info
+      localStorage.setItem(this.tokenKey, data.access_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      console.log('Login successful:', data.user);
+      return data;
+
+    } catch (error) {
+      console.error('Login failed:', error.message);
+      throw error;
+    }
+  }
+
+  logout() {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('user');
+    window.location.href = '/login.html';
+  }
+
+  getToken() {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  isAuthenticated() {
+    const token = this.getToken();
+    if (!token) return false;
+
+    // Check if token is expired
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return Date.now() &lt; payload.exp * 1000;
+    } catch {
+      return false;
+    }
+  }
+
+  async fetchProtected(url, options = {}) {
+    const token = this.getToken();
+
+    if (!token || !this.isAuthenticated()) {
+      this.logout();
+      throw new Error('Not authenticated');
+    }
+
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // Handle token expiration
+    if (response.status === 401) {
+      this.logout();
+      throw new Error('Session expired');
+    }
+
+    return response;
+  }
+}
+
+// Usage
+const auth = new AuthService();
+
+// Login
+try {
+  await auth.login('user@example.com', 'password123');
+  window.location.href = '/dashboard.html';
+} catch (error) {
+  alert(error.message);
+}
+
+// Make authenticated request
+try {
+  const response = await auth.fetchProtected('articles.php?action=create', {
+    method: 'POST',
+    body: JSON.stringify({ /* article data */ })
+  });
+  const data = await response.json();
+} catch (error) {
+  console.error(error);
+}
+
+// Logout
+auth.logout();
+</code></pre>
+<h4 id="security-best-practices">Security Best Practices</h4>
+<p><strong>DO:</strong>
+- Always use HTTPS in production
+- Store tokens securely (httpOnly cookies recommended for web apps)
+- Implement token refresh mechanisms for better user experience
+- Validate token on every protected request server-side
+- Log security events (failed logins, suspicious activity)
+- Implement account lockout after multiple failed attempts</p>
+<p><strong>DON'T:</strong>
+- Don't send tokens in URL parameters (they're logged everywhere)
+- Don't store tokens in plain cookies without httpOnly flag
+- Don't use extremely long expiration times
+- Don't log tokens in console or analytics in production
+- Don't share tokens between users
+- Don't skip HTTPS in production environments</p>
+<h4 id="troubleshooting">Troubleshooting</h4>
+<p><strong>"Invalid credentials" error:</strong></p>
+<p><strong>Possible Causes:</strong>
+1. Incorrect email/username or password
+2. User account doesn't exist (may need to register first)
+3. Account may be locked or disabled
+4. Password is case-sensitive</p>
+<p><strong>Solutions:</strong>
+- Verify email/username spelling
+- Check password (ensure correct case)
+- Ensure user has registered via the <a href="#register-endpoint">Register Endpoint</a>
+- Contact support if account appears locked</p>
+<hr />
+<p><strong>Token not working with protected endpoints:</strong></p>
+<p><strong>Possible Causes:</strong>
+1. Token has expired (1 hour limit)
+2. Token format is incorrect in Authorization header
+3. Missing "Bearer " prefix
+4. Token was corrupted during storage</p>
+<p><strong>Solutions:</strong>
+- Check token expiration and re-login if needed
+- Verify Authorization header format: <code>Bearer &lt;token&gt;</code>
+- Ensure no extra spaces or line breaks in token
+- Clear localStorage and login again</p>
+<h4 id="role-based-access-after-login">Role-Based Access After Login</h4>
+<p>Based on the user's role, different endpoints become available:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>general</strong></td>
+<td>Read articles, bookmark articles, comment on articles</td>
+</tr>
+<tr>
+<td><strong>journalist</strong></td>
+<td>Everything general can do + create articles</td>
+</tr>
+<tr>
+<td><strong>verifier</strong></td>
+<td>Everything general can do + verify/remove media</td>
+</tr>
+<tr>
+<td><strong>admin</strong></td>
+<td>Full access to all endpoints and features</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example: Checking User Role</strong></p>
+<pre><code class="language-javascript">const user = JSON.parse(localStorage.getItem('user'));
+
+if (user.role === 'journalist' || user.role === 'admin') {
+  // Show &quot;Create Article&quot; button
+  document.getElementById('createArticleBtn').style.display = 'block';
+}
+
+if (user.role === 'verifier' || user.role === 'admin') {
+  // Show &quot;Verify Article&quot; button
+  document.getElementById('verifyArticleBtn').style.display = 'block';
+}
+</code></pre>
+<h4 id="next-steps-after-login">Next Steps After Login</h4>
+<ol>
+<li>Store the <code>access_token</code> securely</li>
+<li>Include the token in all requests to protected endpoints</li>
+<li>Access features based on your assigned role</li>
+<li>Re-login when token expires (after 1 hour)</li>
+</ol>
+<hr />
+<h2 id="memberships-endpoint">Memberships Endpoint</h2>
+<p>The Memberships resource manages a user's current membership tier. Each user is automatically assigned a <strong>Basic</strong> membership on registration. Memberships can be retrieved and upgraded through these endpoints.</p>
+<hr />
+<h4 id="membership-tiers">Membership Tiers</h4>
+<table>
+<thead>
+<tr>
+<th>Tier ID</th>
+<th>Name</th>
+<th>Price</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Basic</td>
+<td>Free</td>
+<td>Default tier — read articles, comment, bookmark</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Premium</td>
+<td>€5.99/mo</td>
+<td>No ads, upload media, save articles</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Journalism</td>
+<td>€12.99/mo</td>
+<td>Everything in Premium + post articles, verified badge</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="get-get-user-membership">GET — Get User Membership</h4>
+<p><code>GET /api/memberships/{userId}/membership</code></p>
+<p>Returns the current membership tier details and all feature flags for the specified user. Requires authentication.</p>
+<h3 id="headers-required_2">Headers Required</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td><code>Bearer YOUR_TOKEN_HERE</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="url-parameters">URL Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userId</code></td>
+<td>integer</td>
+<td>✅</td>
+<td>The ID of the user whose membership to retrieve</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-request_2">Example Request</h3>
+<pre><code>GET http://localhost/API_Systems_Nirvana_Yan/flashpoint-api/api/memberships/7/membership
+Authorization: Bearer eyJ0eXAi...
+</code></pre>
+<h3 id="success-response_2">Success Response</h3>
+<p><strong>200 - OK</strong></p>
+<pre><code class="language-json">{
+  &quot;membership&quot;: {
+    &quot;tier_id&quot;: 1,
+    &quot;name&quot;: &quot;Basic&quot;,
+    &quot;price_eur&quot;: &quot;0.00&quot;,
+    &quot;description&quot;: &quot;Default free membership&quot;,
+    &quot;can_remove_ads&quot;: false,
+    &quot;can_upload_media&quot;: false,
+    &quot;can_post_news&quot;: false,
+    &quot;can_bookmark&quot;: true,
+    &quot;can_comment&quot;: true,
+    &quot;can_react&quot;: true,
+    &quot;can_get_discounts&quot;: false,
+    &quot;can_access_vacancies&quot;: false,
+    &quot;can_receive_fast_notifications&quot;: false,
+    &quot;can_view_videos_early&quot;: false,
+    &quot;membership_id&quot;: 1
+  }
+}
+</code></pre>
+<h3 id="error-responses_2">Error Responses</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Error</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>404</code></td>
+<td><code>"Membership not found"</code></td>
+<td>No membership exists for this user ID</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td><code>"No token provided"</code></td>
+<td>Authorization header missing</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td><code>"Endpoint not found"</code></td>
+<td>Wrong URL structure or missing action</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="patch-update-user-membership">PATCH — Update User Membership</h4>
+<p><code>PATCH /api/memberships/{userId}/membership</code></p>
+<p>Updates the user's membership to a new tier. Requires authentication. The user can upgrade to a higher tier or downgrade back to Basic (tier_id = 1) to cancel their subscription.</p>
+<h3 id="headers-required_3">Headers Required</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td><code>Bearer YOUR_TOKEN_HERE</code></td>
+</tr>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code>application/json</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="url-parameters_1">URL Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userId</code></td>
+<td>integer</td>
+<td>✅</td>
+<td>The ID of the user whose membership to update</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body_2">Request Body</h3>
+<pre><code class="language-json">{
+  &quot;tier_id&quot;: 2
+}
+</code></pre>
+<h3 id="fields">Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tier_id</code></td>
+<td>integer</td>
+<td>✅</td>
+<td>The ID of the tier to switch to. 1 = Basic, 2 = Premium, 3 = Journalism</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-upgrade-to-premium">Example — Upgrade to Premium</h3>
+<pre><code class="language-json">{
+  &quot;tier_id&quot;: 2
+}
+</code></pre>
+<h3 id="example-cancel-subscription-back-to-basic">Example — Cancel Subscription (back to Basic)</h3>
+<pre><code class="language-json">{
+  &quot;tier_id&quot;: 1
+}
+</code></pre>
+<h3 id="success-response_3">Success Response</h3>
+<p><strong>200 - OK</strong></p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Membership updated successfully&quot;
+}
+</code></pre>
+<h3 id="error-responses_3">Error Responses</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Error</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>400</code></td>
+<td><code>"tier_id is required"</code></td>
+<td>tier_id field missing from request body</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td><code>"No token provided"</code></td>
+<td>Authorization header missing</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td><code>"Failed to update membership"</code></td>
+<td>Database error</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="feature-flags-reference">Feature Flags Reference</h4>
+<p>Each membership tier returns a set of boolean feature flags indicating what the user can and cannot do:</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>can_remove_ads</code></td>
+<td>User sees no advertisements</td>
+</tr>
+<tr>
+<td><code>can_upload_media</code></td>
+<td>User can upload images and videos</td>
+</tr>
+<tr>
+<td><code>can_post_news</code></td>
+<td>User can create and publish articles</td>
+</tr>
+<tr>
+<td><code>can_bookmark</code></td>
+<td>User can save articles to bookmarks</td>
+</tr>
+<tr>
+<td><code>can_comment</code></td>
+<td>User can comment on articles</td>
+</tr>
+<tr>
+<td><code>can_react</code></td>
+<td>User can react to articles</td>
+</tr>
+<tr>
+<td><code>can_get_discounts</code></td>
+<td>User receives discount offers</td>
+</tr>
+<tr>
+<td><code>can_access_vacancies</code></td>
+<td>User can view journalism job listings</td>
+</tr>
+<tr>
+<td><code>can_receive_fast_notifications</code></td>
+<td>User gets priority breaking news alerts</td>
+</tr>
+<tr>
+<td><code>can_view_videos_early</code></td>
+<td>User gets early access to video content</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="postman-collection">Postman Collection</h4>
+<p><strong>Folder:</strong> <code>Memberships</code></p>
+<table>
+<thead>
+<tr>
+<th>Request Name</th>
+<th>Method</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Get Membership – Success (200)</td>
+<td>GET</td>
+<td><code>/api/memberships/7/membership</code></td>
+</tr>
+<tr>
+<td>Get Membership – Not Found (404)</td>
+<td>GET</td>
+<td><code>/api/memberships/999/membership</code></td>
+</tr>
+<tr>
+<td>Get Membership – No Token (401)</td>
+<td>GET</td>
+<td><code>/api/memberships/7/membership</code></td>
+</tr>
+<tr>
+<td>Upgrade to Premium (200)</td>
+<td>PATCH</td>
+<td><code>/api/memberships/7/membership</code></td>
+</tr>
+<tr>
+<td>Upgrade to Journalism (200)</td>
+<td>PATCH</td>
+<td><code>/api/memberships/7/membership</code></td>
+</tr>
+<tr>
+<td>Cancel Subscription – Basic (200)</td>
+<td>PATCH</td>
+<td><code>/api/memberships/7/membership</code></td>
+</tr>
+<tr>
+<td>Update Membership – Missing tier_id (400)</td>
+<td>PATCH</td>
+<td><code>/api/memberships/7/membership</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="notes">Notes</h4>
+<ul>
+<li>The <code>tier_id</code> in the response refers to the <code>membershipTiers</code> table ID, not the <code>memberships</code> table ID</li>
+<li><code>membership_id</code> in the response is the row ID from the <code>memberships</code> join table</li>
+<li>Downgrading to <code>tier_id: 1</code> (Basic) effectively cancels any paid subscription</li>
+<li>There is no payment validation on this endpoint — payment processing is handled separately through the in-app payment flow before this endpoint is called</li>
+</ul>
+<h2 id="view-articles-get">View Articles - GET</h2>
+<ul>
+<li>Returns a list of all articles.</li>
+<li>This endpoint is public — no token needed.</li>
+<li>Results can be filtered using optional query parameters.</li>
+</ul>
+<h4 id="no-filtering">No Filtering</h4>
+<p>GET articles.php?action=list</p>
+<h4 id="filtering-by-status">Filtering by Status</h4>
+<p>GET articles.php?action=list&amp;status=pending</p>
+<h4 id="filtering-by-category">Filtering by Category</h4>
+<p>GET articles.php?action=list&amp;category=politics</p>
+<h4 id="filtering-unverified-articles">Filtering Unverified Articles</h4>
+<p>GET articles.php?action=list&amp;verified=0</p>
+<h4 id="query-parameters">Query Parameters</h4>
+<p>Parameter Types Required <strong>Description</strong> <strong>Action</strong> &amp; <strong>String</strong>  </p>
+<p>Must be list status string</p>
+<ul>
+<li>Filter by article status e.g. pending, publishedcategorystring</li>
+<li>Filter by category e.g. news, politics, sportverifiedinteger</li>
+<li>0 for unverified, 1 for verified</li>
+</ul>
+<h3 id="success-response_4">Success Response</h3>
+<p>200 - Success</p>
+<pre><code>json{
+  &quot;count&quot;: 2,
+  &quot;articles&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;user_id&quot;: 1,
+      &quot;title&quot;: &quot;New Protest in Valletta&quot;,
+      &quot;body&quot;: &quot;Hundreds gathered outside Parliament...&quot;,
+      &quot;category&quot;: &quot;politics&quot;,
+      &quot;lat&quot;: 35.8997,
+      &quot;lng&quot;: 14.5147,
+      &quot;source&quot;: &quot;FlashPoint Reporter&quot;,
+      &quot;url&quot;: &quot;https://example.com/article&quot;,
+      &quot;status&quot;: &quot;pending&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;created_at&quot;: &quot;2026-05-16 10:30:00&quot;,
+      &quot;author_name&quot;: &quot;nirvana_vella&quot;,
+      &quot;author_display&quot;: &quot;Nirvana Vella&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="create-articles-post">Create Articles - POST</h2>
+<ul>
+<li>Submits a new article. </li>
+<li>Requires authentication. </li>
+<li>Only users with the role journalist or admin can create articles. </li>
+</ul>
+<p>POST articles.php?action=create</p>
+<p>The article is automatically set to status: pending and verification_status: unverified — it must be reviewed by a verifier before it is published.</p>
+<h3 id="headers-required_4">Headers Required</h3>
+<ol>
+<li>Authorization: Bearer YOUR_TOKEN_HERE</li>
+<li>Content-Type: application/json</li>
+</ol>
+<h3 id="request-body_3">Request Body</h3>
+<pre><code>{
+  &quot;title&quot;: &quot;New Protest in Valletta&quot;,
+  &quot;body&quot;: &quot;Hundreds gathered outside Parliament this morning calling for environmental reform...&quot;,
+  &quot;category&quot;: &quot;politics&quot;,
+  &quot;lat&quot;: 35.8997,
+  &quot;lng&quot;: 14.5147,
+  &quot;source&quot;: &quot;FlashPoint Reporter&quot;,
+  &quot;url&quot;: &quot;https://example.com/full-article&quot;
+}
+</code></pre>
+<h3 id="success-response_5">Success Response</h3>
+<p><strong>201 - Successfully Created</strong></p>
+<pre><code>{
+  &quot;message&quot;: &quot;Article submitted for verification&quot;,
+  &quot;article_id&quot;: 3,
+  &quot;status&quot;: &quot;pending&quot;,
+  &quot;verification_status&quot;: &quot;unverified&quot;
+}
+</code></pre>
+<p><strong>401 - Authorization Required</strong>
+Cause - No token provided</p>
+<p><strong>403 - Only Journalists Allowed</strong>
+Cause: User is logged in with general</p>
+<p><strong>400 - Missing field: title</strong>
+Cause: A required field is absent.</p>
+<p><strong>500 - Failed to create article</strong>
+Cause: Database error (server-side)</p>
+<h2 id="verify-articles-patch">Verify Articles - PATCH</h2>
+<ul>
+<li>Updates the verification status of an article.</li>
+<li>Requires authentication.</li>
+<li>Only users with the role verifier or admin can use this endpoint.</li>
+</ul>
+<p>PATCH articles.php?action=verify</p>
+<p>Articles follow a structured three-stage verification flow:
+<strong>unverified</strong> → <strong>in_progress</strong> → <strong>verified</strong></p>
+<ul>
+<li><strong>unverified</strong> — just submitted, no verifier has reviewed it yet</li>
+<li><strong>in_progress</strong> — a verifier is actively reviewing it</li>
+<li><strong>verified</strong> — approved and automatically published</li>
+</ul>
+<p>Headers Required</p>
+<pre><code>Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+</code></pre>
+<h4 id="request-body-move-to-in-progress">Request Body — Move to In Progress</h4>
+<pre><code>json{
+  &quot;article_id&quot;: 3,
+  &quot;status&quot;: &quot;in_progress&quot;
+}
+</code></pre>
+<h4 id="request-body-approve-and-publish">Request Body — Approve and Publish</h4>
+<pre><code>json{
+  &quot;article_id&quot;: 3,
+  &quot;status&quot;: &quot;verified&quot;
+}
+</code></pre>
+<h4 id="fields_1">Fields</h4>
+<p>The ID of the article to verifystatusstring
+* Must be one of: unverified, in_progress, verified</p>
+<h3 id="source-responses">Source Responses</h3>
+<p>200 - Successfully Updated</p>
+<pre><code>json{
+  &quot;message&quot;: &quot;Article verification updated&quot;,
+  &quot;article_id&quot;: 3,
+  &quot;verification_status&quot;: &quot;verified&quot;
+}
+</code></pre>
+<ul>
+<li>401 - Unauthorized
+Cause: No token provided or token is invalid</li>
+<li>403 - Forbidden
+Cause: User does not have the verifier or admin role</li>
+<li>400 - Missing article_id
+Cause: article_id field is absent from the request body</li>
+<li>400 - Invalid status
+Cause: Status value is not one of the allowed options</li>
+<li>404 - Article Not Found
+Cause: No article exists with the provided article_id</li>
+</ul>
+<h2 id="comment-getpostpatch">Comment - GET/POST/PATCH</h2>
+<h3 id="get">GET</h3>
+<p>Comments are linked to articles. Any logged-in user can post a comment regardless of their role. The GET endpoint for reading comments is public — no token needed.</p>
+<p>GET — Get Comments on an Article</p>
+<pre><code>GET articles.php?action=comments&amp;article_id={id}
+</code></pre>
+<p>Returns all comments posted on a specific article. This endpoint is public — no token needed.</p>
+<pre><code>GET articles.php?action=comments&amp;article_id=1
+</code></pre>
+<h3 id="query-string-parameters">Query String Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td>string</td>
+<td>Must be comments</td>
+</tr>
+<tr>
+<td>article_id</td>
+<td>integer</td>
+<td>The id of the article to be able to fetch comments</td>
+</tr>
+</tbody>
+</table>
+<h3 id="success-response_6">Success Response</h3>
+<p>200 - Success</p>
+<pre><code>json{
+  &quot;comments&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;article_id&quot;: 1,
+      &quot;user_id&quot;: 2,
+      &quot;body&quot;: &quot;I was there this morning, very peaceful crowd.&quot;,
+      &quot;created_at&quot;: &quot;2026-05-16 11:00:00&quot;,
+      &quot;username&quot;: &quot;nirvana_vella&quot;,
+      &quot;display_name&quot;: &quot;Nirvana Vella&quot;
+    }
+  ]
+}
+</code></pre>
+<h3 id="error-responses_4">Error Responses</h3>
+<p>400 - Missing article_id</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;article_id required&quot;
+}
+</code></pre>
+<p>Cause: article_id was not included in the URL.</p>
+<h3 id="post-add-a-comment">POST — Add a Comment</h3>
+<pre><code>POST articles.php?action=comments
+</code></pre>
+<ul>
+<li>Posts a new comment on an article. </li>
+<li>Requires authentication. </li>
+<li>Any logged-in user can comment regardless of role.</li>
+</ul>
+<h3 id="headers-required_5">Headers Required</h3>
+<p>HeaderValueAuthorizationBearer <strong>YOUR_TOKEN_HERE</strong></p>
+<p>Content-Typeapplication/json</p>
+<h4 id="request-body_4">Request Body</h4>
+<pre><code>json{
+  &quot;article_id&quot;: 1,
+  &quot;body&quot;: &quot;I was there this morning, very peaceful crowd.&quot;
+}
+</code></pre>
+<h3 id="success-response_7">Success Response</h3>
+<p>201 - Successfully Created</p>
+<pre><code>json{
+  &quot;message&quot;: &quot;Comment added&quot;
+}
+</code></pre>
+<h3 id="error-responses_5">Error Responses</h3>
+<p>401 - Unauthorized</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;No token provided&quot;
+}
+</code></pre>
+<p>Cause: Authorization header missing or token invalid.</p>
+<p>400 - Missing article_id</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;article_id required&quot;
+}
+</code></pre>
+<p>Cause: article_id field is absent from the request body.</p>
+<p>400 - Missing body</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;body required&quot;
+}
+</code></pre>
+<p>Cause: Comment text is empty or missing.</p>
+<p>404 - Article Not Found</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;Article not found&quot;
+}
+</code></pre>
+<p>Cause: No article exists with the provided article_id.</p>
+<h3 id="patch-edit-a-comment">PATCH — Edit a Comment</h3>
+<pre><code>PATCH articles.php?action=edit_comment
+</code></pre>
+<ul>
+<li>Edits an existing comment. </li>
+<li>Requires authentication. </li>
+<li>Only the original author of the comment or an admin can edit it.</li>
+</ul>
+<h3 id="headers-required_6">Headers Required</h3>
+<p>HeaderValueAuthorizationBearer YOUR_TOKEN_HERE</p>
+<p>Content-Typeapplication/json</p>
+<h4 id="request-body_5">Request Body</h4>
+<pre><code>json{
+  &quot;id&quot;: 1,
+  &quot;body&quot;: &quot;Updated comment text here.&quot;
+}
+</code></pre>
+<h4 id="success-response_8">Success Response</h4>
+<p>200 - Success</p>
+<pre><code>json{
+  &quot;message&quot;: &quot;Comment updated&quot;
+}
+</code></pre>
+<h4 id="error-responses_6">Error Responses</h4>
+<p>401 - Unauthorized
+Cause: No token provided or token is invalid.</p>
+<p>403 - Forbidden
+Cause: User is not the author of the comment or an admin.</p>
+<p>404 - Not Found
+Cause: No comment exists with the provided id.</p>
+<h3 id="delete-delete-a-comment">DELETE — Delete a Comment</h3>
+<pre><code>DELETE articles.php?action=remove
+</code></pre>
+<ul>
+<li>Deletes a comment. </li>
+<li>Requires authentication. </li>
+<li>Only the original author or an admin can delete a comment.</li>
+</ul>
+<h4 id="headers-required_7">Headers Required</h4>
+<p>HeaderValueAuthorizationBearer YOUR_TOKEN_HERE</p>
+<p>Content-Typeapplication/json</p>
+<h4 id="request-body_6">Request Body</h4>
+<pre><code>json{
+  &quot;id&quot;: 1
+}
+</code></pre>
+<h4 id="success-response_9">Success Response</h4>
+<p>200 - Success</p>
+<pre><code>json{
+  &quot;message&quot;: &quot;Comment deleted&quot;
+}
+</code></pre>
+<h4 id="error-responses_7">Error Responses</h4>
+<p>401 - Unauthorized
+Cause: No token provided or token is invalid.</p>
+<p>403 - Forbidden
+Cause: User is not the author of the comment or an admin.</p>
+<p>404 - Not Found
+Cause: No comment exists with the provided id.</p>
+<h2 id="bookmark-post">Bookmark - POST</h2>
+<pre><code>POST bookmarks.php?action=add
+</code></pre>
+<ul>
+<li>Saves an article to the logged-in user's bookmarks. </li>
+<li>Each article can only be bookmarked once per user, attempting to bookmark the same article twice will return a 409 error.</li>
+</ul>
+<h3 id="headers-required_8">Headers Required</h3>
+<p>HeaderValueAuthorizationBearer YOUR_TOKEN_HERE</p>
+<p>Content-Typeapplication/json</p>
+<h3 id="request-body_7">Request Body</h3>
+<pre><code>json{
+  &quot;article_id&quot;: 1
+}
+</code></pre>
+<h3 id="success-response_10">Success Response</h3>
+<p>201 - Successfully Created</p>
+<pre><code>json{
+  &quot;message&quot;: &quot;Article bookmarked&quot;
+}
+</code></pre>
+<h3 id="error-responses_8">Error Responses</h3>
+<p>401 - Unauthorized</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;No token provided&quot;
+}
+</code></pre>
+<p>Cause: Authorization header missing or token invalid.</p>
+<p>400 - Missing article_id</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;article_id required&quot;
+}
+</code></pre>
+<p>Cause: article_id field is absent from the request body.</p>
+<p>404 - Article Not Found</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;Article not found&quot;
+}
+</code></pre>
+<p>Cause: No article exists with the provided article_id.</p>
+<p>409 - Already Bookmarked</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;Already bookmarked&quot;
+}
+</code></pre>
+<p>Cause: This article is already saved in the user's bookmarks. Cannot bookmark the same article twice.</p>
+<h2 id="view-bookmark-get">View Bookmark - GET</h2>
+<pre><code>GET bookmarks.php?action=list
+</code></pre>
+<ul>
+<li>Returns all articles the logged-in user has bookmarked, including the full article details and the date it was bookmarked. </li>
+<li>Each user only sees their own bookmarks.</li>
+</ul>
+<h3 id="headers-required_9">Headers Required</h3>
+<p>HeaderValueAuthorizationBearer YOUR_TOKEN_HERE
+No Request Body Needed</p>
+<h3 id="success-response_11">Success Response</h3>
+<p>200 - Success</p>
+<pre><code>json{
+  &quot;count&quot;: 1,
+  &quot;bookmarks&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;user_id&quot;: 1,
+      &quot;title&quot;: &quot;New Protest in Valletta&quot;,
+      &quot;body&quot;: &quot;Hundreds gathered outside Parliament...&quot;,
+      &quot;category&quot;: &quot;politics&quot;,
+      &quot;status&quot;: &quot;pending&quot;,
+      &quot;verification_status&quot;: &quot;unverified&quot;,
+      &quot;created_at&quot;: &quot;2026-05-16 10:30:00&quot;,
+      &quot;bookmarked_at&quot;: &quot;2026-05-16 12:00:00&quot;
+    }
+  ]
+}
+</code></pre>
+<h3 id="error-responses_9">Error Responses</h3>
+<p>401 - Unauthorized</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;No token provided&quot;
+}
+</code></pre>
+<p>Cause: Authorization header missing or token invalid.</p>
+<h2 id="remove-bookmark-delete">Remove Bookmark - DELETE</h2>
+<pre><code>DELETE bookmarks.php?action=remove
+</code></pre>
+<ul>
+<li>Removes an article from the logged-in user's bookmarks.</li>
+<li>A user can only remove their own bookmarks — not another user's.</li>
+</ul>
+<p>Even though this is a DELETE request, you still need to send a JSON body. In Postman select Body → raw → JSON and include the article_id as shown below.</p>
+<h3 id="headers-required_10">Headers Required</h3>
+<p>HeaderValueAuthorizationBearer YOUR_TOKEN_HERE</p>
+<p>Content-Typeapplication/json</p>
+<h3 id="request-body_8">Request Body</h3>
+<pre><code>json{
+  &quot;article_id&quot;: 1
+}
+</code></pre>
+<h3 id="success-response_12">Success Response</h3>
+<p>200 - Successfully Removed</p>
+<pre><code>json{
+  &quot;message&quot;: &quot;Bookmark removed&quot;
+}
+</code></pre>
+<p>Error Responses
+401 - Unauthorized</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;No token provided&quot;
+}
+</code></pre>
+<p>Cause: Authorization header missing or token invalid.</p>
+<p>400 - Missing article_id</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;article_id required&quot;
+}
+</code></pre>
+<p>Cause: article_id field is absent from the request body.</p>
+<p>404 - Bookmark Not Found</p>
+<pre><code>json{
+  &quot;error&quot;: &quot;Bookmark not found&quot;
+}
+</code></pre>
+<p>Cause: This article was never bookmarked by the logged-in user.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-05-27 00:01:16.347812+00:00
+-->
